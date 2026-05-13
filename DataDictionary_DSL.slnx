@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DataDictionary.ConsoleApp/DataDictionary.ConsoleApp.csproj" />
+  <Project Path="DataDictionary.Domain/DataDictionary.Domain.csproj" Id="2c2d3c0a-1569-4840-b1f0-c87675ce3ecc" />
+  <Project Path="DataDictionary.Parser/DataDictionary.Parser.csproj" />
+  <Project Path="DataDictionary.Tests/DataDictionary.Tests.csproj" Id="8f510b33-7f25-4442-b3b6-35e1eea72597" />
+</Solution>

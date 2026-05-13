@@ -1,0 +1,172 @@
+DATA DICTIONARY
+id: 1
+name: "Inventory Form"
+author: "KJ"
+version: "1"
+date of creation: 13.05.2026.
+{
+    LOGICAL FUNCTION
+    id: 1
+    name: "IsValidDate"
+    definition: <= today
+    result: true
+
+    SEMANTIC DOMAIN
+    id: 1
+    name: "Quantity"
+    base: Integer
+    constraint: > 0
+
+    STRUCTURES
+    id: 1
+    name: "Inventory form"
+    type: dataStore
+    <
+        id: 1
+        name: "Organization"
+        &
+            domain: String
+            nullability: not null
+        &
+
+        id: 2
+        name: "Address"
+        &
+            domain: String
+            nullability: not null
+        &
+
+        id: 3
+        name: "Inventory"
+        #
+            id: 300
+            name: "Inventory"
+            type: dataStore
+            <
+                id: 4
+                name: "Inventory list"
+                #
+                    id: 400
+                    name: "Inventory list"
+                    type: dataStore
+                    {
+                        id: 5
+                        name: "No"
+                        &
+                            domain: Integer
+                            constraint: > 0
+                        &
+
+                        id: 6
+                        name: "Name"
+                        &
+                            domain: String
+                            nullability: not null
+                        &
+
+                        id: 7
+                        name: "Quantity"
+                        &
+                            domain: "Quantity"
+                            nullability: not null
+                        &
+
+                        id: 8
+                        name: "Price per piece"
+                        &
+                            domain: Real
+                            constraint: > 0
+                        &
+
+                        id: 9
+                        name: "Price in total"
+                        &
+                            domain: Real  
+                            constraint: = "Price per piece" * "Quantity"
+                        &
+                    }
+                #
+
+                id: 10
+                name: "Total"
+                &
+                    domain: Real
+                    nullability: not null
+                    constraint:  = SUM("Price in total")
+                &
+            >
+        #
+
+        id: 11
+        name: "Delivered"
+        #
+            id: 301
+            name: "Delivered"
+            type: dataStore
+            /
+                id: 12
+                name: "In person"
+                &
+                    domain: Boolean
+                &
+
+                id: 13
+                name: "Via e-mail"
+                &
+                    domain: Boolean
+                &
+
+                id: 14
+                name: "Via post"
+                &
+                    domain: Boolean
+                &
+
+                id: 15
+                name: "Via internal system"
+                &
+                    domain: Boolean
+                &
+            /
+        #
+
+        id: 16
+        name: "Prepared by"
+        #
+            id: 302
+            name: "Person responsible"
+            type: dataStore
+            <
+                id: 17
+                name: "Name"
+                &
+                    domain: String
+                    nullability: not null
+                &
+
+                id: 18
+                name: "Phone"
+                &
+                    domain: String
+                    nullability: not null
+                &
+
+                id: 19
+                name: "E-mail"
+                &
+                    domain: String
+		            format: "LIKE %@%.%"
+                    nullability: not null
+                &
+
+                id: 20
+                name: "Date"
+                &
+                    domain: Date
+                    nullability: not null
+                    constraint: <= today
+                &
+            >
+        #
+    >
+}

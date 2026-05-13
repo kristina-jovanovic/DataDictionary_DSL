@@ -1,4 +1,6 @@
-﻿namespace DataDictionary.ConsoleApp
+﻿using DataDictionary.Parser.Parsing;
+
+namespace DataDictionary.ConsoleApp
 {
     internal class Program
     {

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DataDictionary.Domain.Enums;
 
 namespace DataDictionary.Domain.Models.Constraints.Arithmetic
@@ -7,7 +8,8 @@ namespace DataDictionary.Domain.Models.Constraints.Arithmetic
         public required ArithmeticExpression Left { get; set; }
         public required ArithmeticOperator Operator { get; set; }
         public required ArithmeticExpression Right { get; set; }
-        public BinaryArithmeticExpression(ArithmeticExpression left, 
+        [SetsRequiredMembers]
+        public BinaryArithmeticExpression(ArithmeticExpression left,
             ArithmeticOperator op, ArithmeticExpression right)
         {
             Left = left;

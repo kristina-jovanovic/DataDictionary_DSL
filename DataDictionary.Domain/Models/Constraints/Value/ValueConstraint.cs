@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DataDictionary.Domain.Enums;
 
 namespace DataDictionary.Domain.Models.Constraints.Value
@@ -6,12 +7,14 @@ namespace DataDictionary.Domain.Models.Constraints.Value
     {
         public required List<ComparisonExpression> Expressions { get; set; }
         public List<LogicalOperator>? Operators { get; set; }
+        [SetsRequiredMembers]
         public ValueConstraint(List<ComparisonExpression> expressions, List<LogicalOperator>? operators)
         {
-            if(operators != null && operators.Count != expressions.Count - 1)
+            if (operators != null && operators.Count != expressions.Count - 1)
             {
                 throw new ArgumentException("Operators count must be one less than expressions count.");
             }
+             
             Expressions = expressions;
             Operators = operators;
         }

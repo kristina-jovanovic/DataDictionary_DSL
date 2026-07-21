@@ -1,4 +1,5 @@
-﻿using DataDictionary.Domain.Models.Constraints;
+﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Models.Constraints;
 
 namespace DataDictionary.Domain.Models
 {
@@ -9,6 +10,7 @@ namespace DataDictionary.Domain.Models
         public required ConstraintExpression Definition { get; set; }
         public required bool Result { get; set; }
 
+        [SetsRequiredMembers]
         public LogicalFunction(int id, string name, ConstraintExpression definition, bool result)
         {
             Id = id;

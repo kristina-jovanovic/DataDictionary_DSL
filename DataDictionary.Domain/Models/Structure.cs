@@ -1,4 +1,5 @@
-﻿using DataDictionary.Domain.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
 
 namespace DataDictionary.Domain.Models
 {
@@ -6,6 +7,7 @@ namespace DataDictionary.Domain.Models
     {
         public required StructureType StructureType { get; set; }
         public required List<Component> Components { get; set; }
+        [SetsRequiredMembers]
         public Structure(int id, string name, StructureType structureType,
             List<Component> components) : base(id, name)
         {

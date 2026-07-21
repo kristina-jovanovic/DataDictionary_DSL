@@ -1,4 +1,5 @@
-﻿using DataDictionary.Domain.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
 using DataDictionary.Domain.Models.Constraints;
 
 namespace DataDictionary.Domain.Models
@@ -13,6 +14,7 @@ namespace DataDictionary.Domain.Models
         public ConstraintExpression? Constraint { get; set; }
         public T? DefaultValue { get; set; }
         public string? Note { get; set; }
+        [SetsRequiredMembers]
         public Field(int id, string name, Nullability? nullability = null,
             string? format = null, ConstraintExpression? constraint = null,
             T? defaultValue = default(T), string? note = null) : base(id, name)

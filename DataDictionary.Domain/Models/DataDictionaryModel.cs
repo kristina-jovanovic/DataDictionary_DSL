@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 
@@ -17,6 +18,7 @@ namespace DataDictionary.Domain.Models
         public List<SemanticDomain>? SemanticDomains { get; set; }
         public required List<Structure> Structures { get; set; }
 
+        [SetsRequiredMembers]
         public DataDictionaryModel(int id, string name, string author, string version,
             DateTime dateOfCreation, List<Structure> structures,
             List<LogicalFunction> logicalFunctions = null, List<SemanticDomain> semanticDomains = null)

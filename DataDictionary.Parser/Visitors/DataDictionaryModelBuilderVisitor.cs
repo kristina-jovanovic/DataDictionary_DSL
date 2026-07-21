@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DataDictionary.Domain.Models;
 
 namespace DataDictionary.Parser.Visitors
 {
-    internal class DataDictionaryModelBuilderVisitor
+    public class DataDictionaryModelBuilderVisitor : DataDictionaryParserBaseVisitor<DataDictionaryModel>
     {
-        internal DataDictionaryModel Visit(DataDictionaryParser.DataDictionaryContext context)
+        //DataDictionaryModel _dd = new DataDictionaryModel();
+        public DataDictionaryModel Visit(DataDictionaryParser.DataDictionaryContext context)
         {
-            throw new NotImplementedException();
+            Visit(context);
+            //return _dd;
+            throw new Exception();
         }
     }
 }

@@ -329,11 +329,11 @@ public partial class DataDictionaryParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID_LABEL() { return GetToken(DataDictionaryParser.ID_LABEL, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT() { return GetToken(DataDictionaryParser.INT, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_LABEL() { return GetToken(DataDictionaryParser.NAME_LABEL, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] STRING() { return GetTokens(DataDictionaryParser.STRING); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING(int i) {
-			return GetToken(DataDictionaryParser.STRING, i);
-		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING() { return GetToken(DataDictionaryParser.STRING, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DEFINITION_LABEL() { return GetToken(DataDictionaryParser.DEFINITION_LABEL, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ConstraintContext constraint() {
+			return GetRuleContext<ConstraintContext>(0);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RESULT_LABEL() { return GetToken(DataDictionaryParser.RESULT_LABEL, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOOLEAN() { return GetToken(DataDictionaryParser.BOOLEAN, 0); }
 		public LogicalFunctionDeclContext(ParserRuleContext parent, int invokingState)
@@ -379,7 +379,7 @@ public partial class DataDictionaryParser : Parser {
 			State = 104;
 			Match(DEFINITION_LABEL);
 			State = 105;
-			Match(STRING);
+			constraint();
 			State = 106;
 			Match(RESULT_LABEL);
 			State = 107;
@@ -2624,7 +2624,7 @@ public partial class DataDictionaryParser : Parser {
 		1,0,0,0,90,88,1,0,0,0,91,93,5,7,0,0,92,94,3,12,6,0,93,92,1,0,0,0,94,95,
 		1,0,0,0,95,93,1,0,0,0,95,96,1,0,0,0,96,97,1,0,0,0,97,98,5,28,0,0,98,3,
 		1,0,0,0,99,100,5,8,0,0,100,101,5,2,0,0,101,102,5,62,0,0,102,103,5,3,0,
-		0,103,104,5,60,0,0,104,105,5,10,0,0,105,106,5,60,0,0,106,107,5,11,0,0,
+		0,103,104,5,60,0,0,104,105,5,10,0,0,105,106,3,32,16,0,106,107,5,11,0,0,
 		107,108,5,23,0,0,108,5,1,0,0,0,109,110,5,9,0,0,110,111,5,2,0,0,111,112,
 		5,62,0,0,112,113,5,3,0,0,113,114,5,60,0,0,114,115,5,12,0,0,115,118,3,30,
 		15,0,116,117,5,13,0,0,117,119,3,32,16,0,118,116,1,0,0,0,118,119,1,0,0,

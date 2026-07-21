@@ -6,16 +6,16 @@ namespace DataDictionary.ConsoleApp
     {
         static void Main(string[] args)
         {
-            // 1. Ucitavanje input fajla
+            // Ucitavanje input fajla
             string input = File.ReadAllText("Examples/InventoryForm.dd");
 
-            // 2. Kreiranje parser servisa
+            // Kreiranje parser servisa
             DataDictionaryParserService parserService = new DataDictionaryParserService();
 
-            // 3. Parsiranje
+            // Parsiranje
             var result = parserService.Parse(input);
 
-            // 4. Prikaz rezultata
+            // Prikaz rezultata
             if (!result.Success)
             {
                 Console.WriteLine("Parsing failed.");
@@ -30,11 +30,11 @@ namespace DataDictionary.ConsoleApp
                 return;
             }
 
-            // 5. Ako je uspesno
+            // Ako je uspesno
             Console.WriteLine("Parsing successful!");
             Console.WriteLine();
 
-            // 6. Prikaz modela
+            // Prikaz modela
             Console.WriteLine($"Name: {result.Model!.Name}");
             Console.WriteLine($"Version: {result.Model.Version}");
             Console.WriteLine($"Author: {result.Model.Author}");

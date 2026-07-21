@@ -17,9 +17,18 @@ namespace DataDictionary.Domain.Models
         public List<SemanticDomain>? SemanticDomains { get; set; }
         public required List<Structure> Structures { get; set; }
 
-    }
-    public class ConstraintExpression
-    {
-
+        public DataDictionaryModel(int id, string name, string author, string version,
+            DateTime dateOfCreation, List<Structure> structures,
+            List<LogicalFunction> logicalFunctions = null, List<SemanticDomain> semanticDomains = null)
+        {
+            Id = id;
+            Name = name;
+            Author = author;
+            Version = version;
+            DateOfCreation = dateOfCreation;
+            Structures = structures;
+            LogicalFunctions = logicalFunctions ?? new List<LogicalFunction>();
+            SemanticDomains = semanticDomains ?? new List<SemanticDomain>();
+        }
     }
 }

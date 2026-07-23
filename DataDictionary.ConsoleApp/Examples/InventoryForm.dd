@@ -39,15 +39,11 @@ date of creation: 13.05.2026.
         id: 3
         name: "Inventory"
         #
-            id: 300
-            name: "Inventory"
             type: dataStore
             <
                 id: 4
                 name: "Inventory list"
                 #
-                    id: 400
-                    name: "Inventory list"
                     type: dataStore
                     {
                         id: 5
@@ -100,8 +96,6 @@ date of creation: 13.05.2026.
         id: 11
         name: "Delivered"
         #
-            id: 301
-            name: "Delivered"
             type: dataStore
             /
                 id: 12
@@ -133,8 +127,6 @@ date of creation: 13.05.2026.
         id: 16
         name: "Prepared by"
         #
-            id: 302
-            name: "Person responsible"
             type: dataStore
             <
                 id: 17

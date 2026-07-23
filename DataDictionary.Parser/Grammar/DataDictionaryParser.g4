@@ -39,8 +39,8 @@ enumeratedDomainDecl:			VALUES_LABEL
 
 value:							STRING | REAL | INT | DATE | BOOLEAN						;
 
-structureDecl:					ID_LABEL INT
-								NAME_LABEL STRING
+structureDecl:					(ID_LABEL INT)?
+								(NAME_LABEL STRING)?			// id i name su vec u componentDecl, kada je ugnjezdena struktura, to se nece pisati, ali kada je glavna struktura, trebalo bi da se pise
 								TYPE_LABEL STRUCTURE_TYPE
 								constructionDecl+											;
 
@@ -66,13 +66,20 @@ inclusiveSpecializationDecl:	SLASH
 
 componentDecl:					ID_LABEL INT
 								NAME_LABEL STRING
-								(HASH structureDecl HASH | AMPERSAND fieldDecl AMPERSAND)	;
+								(HASH 
+									(structureDecl | structureReference)
+								HASH 
+								| AMPERSAND fieldDecl AMPERSAND)	;
+
+structureReference:				NAME_LABEL STRING											;
 
 fieldDecl:						DOMAIN_LABEL domainReference				
-								(FORMAT_LABEL STRING)?		//formatConstraint - ovo je regex ili cobol, ali to cemo kroz semantiku, tako da ostaje string
+								(FORMAT_LABEL format)?		//formatConstraint - ovo je regex ili cobol, ali to cemo kroz semantiku, tako da ostaje string
 								(NULLABILITY_LABEL NULL_CONSTRAINT)?
 								(CONSTRAINT_LABEL constraint)?
 								(DEFAULT_LABEL value)?
-								(NOTE_LABEL STRING)?										;
+								(NOTE_LABEL note)?										;
 
-domainReference:				BASE_DOMAIN | STRING										;
+domainReference:				BASE_DOMAIN | STRING									;
+format:							STRING													;
+note:							STRING													;

@@ -116,6 +116,12 @@ public interface IDataDictionaryParserVisitor<Result> : IParseTreeVisitor<Result
 	/// <return>The visitor result.</return>
 	Result VisitComponentDecl([NotNull] DataDictionaryParser.ComponentDeclContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="DataDictionaryParser.structureReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStructureReference([NotNull] DataDictionaryParser.StructureReferenceContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="DataDictionaryParser.fieldDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -127,6 +133,18 @@ public interface IDataDictionaryParserVisitor<Result> : IParseTreeVisitor<Result
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDomainReference([NotNull] DataDictionaryParser.DomainReferenceContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="DataDictionaryParser.format"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFormat([NotNull] DataDictionaryParser.FormatContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="DataDictionaryParser.note"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNote([NotNull] DataDictionaryParser.NoteContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="DataDictionaryParser.constraint"/>.
 	/// </summary>

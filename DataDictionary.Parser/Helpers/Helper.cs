@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DataDictionary.Domain.Models;
 
 namespace DataDictionary.Parser.Helpers
 {
@@ -59,5 +60,6 @@ namespace DataDictionary.Parser.Helpers
             return sb.ToString();
 
         }
+
     }
 }

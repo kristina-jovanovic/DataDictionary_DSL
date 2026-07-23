@@ -21,7 +21,7 @@ namespace DataDictionary.Domain.Models
         [SetsRequiredMembers]
         public DataDictionaryModel(int id, string name, string author, string version,
             DateTime dateOfCreation, List<Structure> structures,
-            List<LogicalFunction> logicalFunctions = null, List<SemanticDomain> semanticDomains = null)
+            List<LogicalFunction>? logicalFunctions = null, List<SemanticDomain>? semanticDomains = null)
         {
             Id = id;
             Name = name;

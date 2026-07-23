@@ -16,7 +16,7 @@ namespace DataDictionary.Parser.Visitors
 {
     public class ConstraintModelBuilderVisitor
     {
-        public ConstraintExpression Build(ConstraintParser.ConstraintContext context)
+        public ConstraintExpression Build(DataDictionaryParser.ConstraintContext context)
         {
             if (context.likeConstraint() != null)
             {
@@ -40,13 +40,13 @@ namespace DataDictionary.Parser.Visitors
             }
             throw new ArgumentException("Unsupported constraint type.", nameof(context));
         }
-        private LikeConstraint BuildLikeConstraint(ConstraintParser.LikeConstraintContext context)
+        private LikeConstraint BuildLikeConstraint(DataDictionaryParser.LikeConstraintContext context)
         {
             string raw = context.STRING().GetText();
             string pattern = Helper.ProcessString(raw); // trim " from beginning and end, and process escape characters
             return new LikeConstraint(pattern);
         }
-        private BetweenConstraint BuildBetweenConstraint(ConstraintParser.BetweenConstraintContext context)
+        private BetweenConstraint BuildBetweenConstraint(DataDictionaryParser.BetweenConstraintContext context)
         {
             var lower = BuildBetweenValue(context.betweenValue(0));
             var upper = BuildBetweenValue(context.betweenValue(1));
@@ -54,7 +54,7 @@ namespace DataDictionary.Parser.Visitors
                 throw new ArgumentException("Between bounds must be of the same type.", nameof(context));
             return new BetweenConstraint(lower, upper);
         }
-        private InConstraint BuildInConstraint(ConstraintParser.InConstraintContext context)
+        private InConstraint BuildInConstraint(DataDictionaryParser.InConstraintContext context)
         {
             var built = context.inValue().Select(BuildInValue).ToList(); //list of inValues
 
@@ -65,7 +65,7 @@ namespace DataDictionary.Parser.Visitors
             }
             return new InConstraint(built);
         }
-        private ValueConstraint BuildValueConstraint(ConstraintParser.ValueConstraintContext context)
+        private ValueConstraint BuildValueConstraint(DataDictionaryParser.ValueConstraintContext context)
         {
             List<ComparisonExpression> expressions = context.expression().Select(BuildExpression).ToList();
             List<LogicalOperator> operators = new List<LogicalOperator>();
@@ -81,13 +81,13 @@ namespace DataDictionary.Parser.Visitors
             }
             return new ValueConstraint(expressions, operators);
         }
-        private ArithmeticConstraint BuildArithmeticConstraint(ConstraintParser.ArithmeticConstraintContext context)
+        private ArithmeticConstraint BuildArithmeticConstraint(DataDictionaryParser.ArithmeticConstraintContext context)
         {
             return new ArithmeticConstraint(BuildArithmeticExpression(context.arithmeticExpression()));
         }
 
         // helper methods
-        private ArithmeticExpression BuildArithmeticExpression(ConstraintParser.ArithmeticExpressionContext ctx)
+        private ArithmeticExpression BuildArithmeticExpression(DataDictionaryParser.ArithmeticExpressionContext ctx)
         {
             ArithmeticExpression current = BuildArithmeticTerm(ctx.term(0));
             for (int i = 1; i < ctx.term().Length; i++)
@@ -104,7 +104,7 @@ namespace DataDictionary.Parser.Visitors
             return current;
         }
 
-        private ArithmeticExpression BuildArithmeticTerm(ConstraintParser.TermContext ctx)
+        private ArithmeticExpression BuildArithmeticTerm(DataDictionaryParser.TermContext ctx)
         {
             ArithmeticExpression current = BuildArithmeticAtom(ctx.atom(0));
             for (int i = 1; i < ctx.atom().Length; i++)
@@ -121,7 +121,7 @@ namespace DataDictionary.Parser.Visitors
             return current;
         }
 
-        private ArithmeticExpression BuildArithmeticAtom(ConstraintParser.AtomContext ctx)
+        private ArithmeticExpression BuildArithmeticAtom(DataDictionaryParser.AtomContext ctx)
         {
             if (ctx.arithmeticExpression() != null)
             {
@@ -144,7 +144,7 @@ namespace DataDictionary.Parser.Visitors
             throw new ArgumentException("Invalid arithmetic atom.", nameof(ctx));
         }
 
-        private ArithmeticExpression BuildAggregateFunction(ConstraintParser.AggregateFunctionContext ctx)
+        private ArithmeticExpression BuildAggregateFunction(DataDictionaryParser.AggregateFunctionContext ctx)
         {
             AggregateFunction fun = ctx.GetChild(0).GetText() switch
             {
@@ -159,7 +159,7 @@ namespace DataDictionary.Parser.Visitors
             return new AggregateFunctionExpression(fun, Helper.ProcessString(ctx.STRING().GetText()));
         }
 
-        private ComparisonExpression BuildExpression(ConstraintParser.ExpressionContext ctx)
+        private ComparisonExpression BuildExpression(DataDictionaryParser.ExpressionContext ctx)
         {
             bool isNegated = ctx.NOT() != null;
             ComparisonOperator op = ctx.@operator().GetText() switch
@@ -175,7 +175,7 @@ namespace DataDictionary.Parser.Visitors
             ConstraintValue value = BuildComparableValue(ctx.comparableValue());
             return new ComparisonExpression(isNegated, op, value);
         }
-        private ConstraintValue BuildComparableValue(ConstraintParser.ComparableValueContext ctx)
+        private ConstraintValue BuildComparableValue(DataDictionaryParser.ComparableValueContext ctx)
         {
             if (ctx.dateValue() != null)
             {
@@ -200,7 +200,7 @@ namespace DataDictionary.Parser.Visitors
                 throw new ArgumentException("Invalid numeric format.", nameof(ctx));
             return new NumericConstraintValue(numericValue);
         }
-        private ConstraintValue BuildInValue(ConstraintParser.InValueContext ctx)
+        private ConstraintValue BuildInValue(DataDictionaryParser.InValueContext ctx)
         {
             //TODO: move to semantic analysis phase, but for now we can do it here
             if (ctx.STRING() != null)
@@ -216,7 +216,7 @@ namespace DataDictionary.Parser.Visitors
                 throw new ArgumentException("Invalid numeric format.", nameof(ctx));
             return new NumericConstraintValue(numericValue);
         }
-        private ConstraintValue BuildBetweenValue(ConstraintParser.BetweenValueContext ctx)
+        private ConstraintValue BuildBetweenValue(DataDictionaryParser.BetweenValueContext ctx)
         {
             if (ctx.DATE() != null)
             {

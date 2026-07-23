@@ -204,6 +204,18 @@ public partial class DataDictionaryParserBaseListener : IDataDictionaryParserLis
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitComponentDecl([NotNull] DataDictionaryParser.ComponentDeclContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.structureReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterStructureReference([NotNull] DataDictionaryParser.StructureReferenceContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.structureReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitStructureReference([NotNull] DataDictionaryParser.StructureReferenceContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="DataDictionaryParser.fieldDecl"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -227,6 +239,30 @@ public partial class DataDictionaryParserBaseListener : IDataDictionaryParserLis
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDomainReference([NotNull] DataDictionaryParser.DomainReferenceContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.format"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFormat([NotNull] DataDictionaryParser.FormatContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.format"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFormat([NotNull] DataDictionaryParser.FormatContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.note"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNote([NotNull] DataDictionaryParser.NoteContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.note"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNote([NotNull] DataDictionaryParser.NoteContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="DataDictionaryParser.constraint"/>.
 	/// <para>The default implementation does nothing.</para>

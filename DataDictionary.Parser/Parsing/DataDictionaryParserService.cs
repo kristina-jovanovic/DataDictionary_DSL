@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using DataDictionary.Domain.Models;
 using DataDictionary.Parser.ErrorHandling;
+using DataDictionary.Parser.Exceptions;
 using DataDictionary.Parser.Visitors;
 
 namespace DataDictionary.Parser.Parsing
@@ -37,12 +38,30 @@ namespace DataDictionary.Parser.Parsing
                 };
             }
             DataDictionaryModelBuilderVisitor modelBuilder = new DataDictionaryModelBuilderVisitor();
-            DataDictionaryModel model = modelBuilder.Visit(context);
-            return new ParseResult
+            try
             {
-                Success = true,
-                Model = model
-            };
+                DataDictionaryModel model = modelBuilder.Visit(context);
+                return new ParseResult
+                {
+                    Success = true,
+                    Model = model
+                };
+            }
+            catch (DataDictionaryException ex)
+            {
+                return new ParseResult
+                {
+                    Success = false,
+                    Errors = new List<SyntaxError> {
+                        new()
+                        {
+                            Line = ex.Line ?? 0,
+                            Column = ex.Column ?? 0,
+                            Message = ex.Message
+                        }
+                    }
+                };
+            }
         }
     }
 }

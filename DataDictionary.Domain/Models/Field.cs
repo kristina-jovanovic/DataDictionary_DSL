@@ -4,21 +4,20 @@ using DataDictionary.Domain.Models.Constraints;
 
 namespace DataDictionary.Domain.Models
 {
-    public class Field<T> : Component
+    public class Field : Component
     {
-        //public string DomainReference { get; set; } //nekako proveriti, ako nije ni jedan od BaseDomain-a, onda je semanticki domen
-        //mada je ovo u stvari naziv domena, svakako mora da bude string? zato sto tu treba da pise Integer,... a ne neka Int vrednost
-        //ako ubacim generics <>, onda mi ovo i ne treba kao property
+        public required Domain DefinedOverDomain { get; set; }
         public Nullability? Nullability { get; set; }
         public string? Format { get; set; } // ovo ce da bude regex ili cobol like zapis, treba uraditi proveru kroz semantiku
         public ConstraintExpression? Constraint { get; set; }
-        public T? DefaultValue { get; set; }
+        public Value? DefaultValue { get; set; }
         public string? Note { get; set; }
         [SetsRequiredMembers]
-        public Field(int id, string name, Nullability? nullability = null,
+        public Field(int id, string name, Domain domain, Nullability? nullability = null,
             string? format = null, ConstraintExpression? constraint = null,
-            T? defaultValue = default(T), string? note = null) : base(id, name)
+            Value? defaultValue = null, string? note = null) : base(id, name)
         {
+            DefinedOverDomain = domain;
             Nullability = nullability;
             Format = format;
             Constraint = constraint;

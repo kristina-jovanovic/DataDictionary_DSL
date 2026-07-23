@@ -6,8 +6,12 @@ namespace DataDictionary.ConsoleApp
     {
         static void Main(string[] args)
         {
-            // Ucitavanje input fajla
-            string input = File.ReadAllText("Examples/InventoryForm.dd");
+            // Ucitavanje input fajla iz Examples foldera
+            // AppContext.BaseDirectory je izlazni folder (bin/Debug/net10.0), pa se
+            // penjemo tri nivoa nazad (net10.0 -> Debug -> bin -> projekat) do Examples
+            string path = Path.Combine(AppContext.BaseDirectory,
+                "..", "..", "..", "Examples", "InventoryForm.dd");
+            string input = File.ReadAllText(path);
 
             // Kreiranje parser servisa
             DataDictionaryParserService parserService = new DataDictionaryParserService();
@@ -34,10 +38,8 @@ namespace DataDictionary.ConsoleApp
             Console.WriteLine("Parsing successful!");
             Console.WriteLine();
 
-            // Prikaz modela
-            Console.WriteLine($"Name: {result.Model!.Name}");
-            Console.WriteLine($"Version: {result.Model.Version}");
-            Console.WriteLine($"Author: {result.Model.Author}");
+            // Prikaz celog modela
+            ModelPrinter.Print(result.Model!);
         }
     }
 }

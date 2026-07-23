@@ -171,6 +171,16 @@ public interface IDataDictionaryParserListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitComponentDecl([NotNull] DataDictionaryParser.ComponentDeclContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.structureReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStructureReference([NotNull] DataDictionaryParser.StructureReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.structureReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStructureReference([NotNull] DataDictionaryParser.StructureReferenceContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="DataDictionaryParser.fieldDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -190,6 +200,26 @@ public interface IDataDictionaryParserListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDomainReference([NotNull] DataDictionaryParser.DomainReferenceContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.format"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFormat([NotNull] DataDictionaryParser.FormatContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.format"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFormat([NotNull] DataDictionaryParser.FormatContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="DataDictionaryParser.note"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNote([NotNull] DataDictionaryParser.NoteContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="DataDictionaryParser.note"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNote([NotNull] DataDictionaryParser.NoteContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="DataDictionaryParser.constraint"/>.
 	/// </summary>

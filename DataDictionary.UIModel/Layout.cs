@@ -1,53 +1,37 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DataDictionary.UIModel.Enums;
+using System.Text.Json.Serialization;
 
 namespace DataDictionary.UIModel
 {
-    public class Layout
+    // vrsta layout-a se dobija iz stvarnog tipa (GridLayout/FlowLayout/...) preko
+    // "type" diskriminatora
+    // ne treba poseban LayoutType enum
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+    [JsonDerivedType(typeof(GridLayout), "Grid")]
+    [JsonDerivedType(typeof(FlowLayout), "Flow")]
+    [JsonDerivedType(typeof(AnchorLayout), "Anchor")]
+    [JsonDerivedType(typeof(ExplicitLayout), "Explicit")]
+    public abstract class Layout
     {
-        public required LayoutType LayoutType { get; set; }
-        [SetsRequiredMembers]
-        public Layout(LayoutType type)
-        {
-            LayoutType = type;
-        }
     }
 
     public class GridLayout : Layout
     {
-        public required bool ShowGridLines { get; set; }
-        [SetsRequiredMembers]
-        public GridLayout(bool showGridLines = false) : base(LayoutType.Grid)
+        public bool ShowGridLines { get; set; }
+        public GridLayout(bool showGridLines = false)
         {
             ShowGridLines = showGridLines;
         }
     }
+
     public class FlowLayout : Layout
     {
-        [SetsRequiredMembers]
-        public FlowLayout() : base(LayoutType.Flow)
-        {
-
-        }
     }
 
     public class AnchorLayout : Layout
     {
-        [SetsRequiredMembers]
-        public AnchorLayout() : base(LayoutType.Anchor)
-        {
-
-        }
     }
+
     public class ExplicitLayout : Layout
     {
-        [SetsRequiredMembers]
-        public ExplicitLayout() : base(LayoutType.Explicit)
-        {
-
-        }
     }
 }
-
-
-

@@ -1,7 +1,19 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace DataDictionary.UIModel
 {
+    // Polimorfna serijalizacija: pri serijalizaciji List<Control> upisuje se
+    // "type" diskriminator i sva svojstva stvarnog tipa kontrole
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+    [JsonDerivedType(typeof(Panel), "Panel")]
+    [JsonDerivedType(typeof(Collection), "Collection")]
+    [JsonDerivedType(typeof(TextBoxControl), "TextBox")]
+    [JsonDerivedType(typeof(CheckBoxControl), "CheckBox")]
+    [JsonDerivedType(typeof(RadioButtonControl), "RadioButton")]
+    [JsonDerivedType(typeof(DateTimePickerControl), "DateTimePicker")]
+    [JsonDerivedType(typeof(ComboBoxControl), "ComboBox")]
+    [JsonDerivedType(typeof(FilePickerControl), "FilePicker")]
     public class Control
     {
         public required int Id { get; set; }

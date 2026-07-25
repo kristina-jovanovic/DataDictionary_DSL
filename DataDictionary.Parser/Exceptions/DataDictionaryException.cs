@@ -15,18 +15,4 @@ namespace DataDictionary.Parser.Exceptions
             Column = column;
         }
     }
-    public class ModelBuildException : DataDictionaryException
-    {
-        public ModelBuildException(string message, int? line = null, int? column = null)
-            : base(message, line, column)
-        {
-        }
-    }
-    public class SemanticException : DataDictionaryException
-    {
-        public SemanticException(string message, int? line = null, int? column = null)
-                : base(message, line, column)
-        {
-        }
-    }
 }

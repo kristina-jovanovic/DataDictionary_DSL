@@ -10,12 +10,12 @@ namespace DataDictionary.UIModel
     {
         public required string GroupName { get; set; }
         public required string OptionValue { get; set; } //naziv opcije, pored checkboxa ili radiobuttona
-        
+
 
         [SetsRequiredMembers]
         public ChoiceButton(int id, string name, string label, bool isRequired,
             string groupName, string optionValue, BooleanValue? defaultValue = null) //default treba da bude false
-            : base(id, name, PredefinedDomainType.Boolean, label, isRequired, defaultValue)
+            : base(id, name, PredefinedDomainType.Logical, label, isRequired, defaultValue)
         {
             GroupName = groupName;
             OptionValue = optionValue;

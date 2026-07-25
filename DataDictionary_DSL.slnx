@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="DataDictionary.Analysis/DataDictionary.Analysis.csproj" Id="83909398-3d28-4673-a598-40af902bc993" />
   <Project Path="DataDictionary.ConsoleApp/DataDictionary.ConsoleApp.csproj" />
   <Project Path="DataDictionary.Domain/DataDictionary.Domain.csproj" Id="2c2d3c0a-1569-4840-b1f0-c87675ce3ecc" />
   <Project Path="DataDictionary.Parser/DataDictionary.Parser.csproj" />

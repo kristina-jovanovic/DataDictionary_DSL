@@ -1,4 +1,5 @@
-﻿using DataDictionary.Parser.Parsing;
+﻿using DataDictionary.Analysis;
+using DataDictionary.Parser.Parsing;
 
 namespace DataDictionary.ConsoleApp
 {
@@ -40,6 +41,16 @@ namespace DataDictionary.ConsoleApp
             // Ako je uspesno
             Console.WriteLine("Parsing successful!");
             Console.WriteLine();
+
+            // Semanticka analiza nad izgradjenim modelom
+            var semanticErrors = new SemanticAnalyzer().Analyze(result.Model!);
+            if (semanticErrors.Count > 0)
+            {
+                Console.WriteLine("Semantic errors:");
+                foreach (var error in semanticErrors)
+                    Console.WriteLine($"  {error.Message}");
+                Console.WriteLine();
+            }
 
             // Prikaz celog modela
             ModelPrinter.Print(result.Model!);

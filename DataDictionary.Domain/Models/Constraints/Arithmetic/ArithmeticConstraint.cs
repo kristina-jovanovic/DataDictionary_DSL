@@ -4,6 +4,7 @@ namespace DataDictionary.Domain.Models.Constraints.Arithmetic
 {
     public class ArithmeticConstraint : ConstraintExpression
     {
+        //izraz: nesto +,-,*,/ nesto
         public required ArithmeticExpression Expression { get; set; }
         [SetsRequiredMembers]
         public ArithmeticConstraint(ArithmeticExpression exp)

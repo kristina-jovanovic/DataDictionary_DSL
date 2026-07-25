@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using DataDictionary.Domain.Enums;
 using DataDictionary.Domain.Models;
+using DomainEntity = DataDictionary.Domain.Models.Domain;
 using DataDictionary.Domain.Models.Constraints;
 using DataDictionary.Parser.Helpers;
 
@@ -13,7 +14,7 @@ namespace DataDictionary.Parser.Visitors
     public class DataDictionaryModelBuilderVisitor
     {
         private readonly ConstraintModelBuilderVisitor _constraintBuilder = new();
-        private readonly Dictionary<string, Domain.Models.Domain> _domainsByName = new();
+        private readonly Dictionary<string, DomainEntity> _domainsByName = new();
         private readonly Dictionary<string, Structure> _structuresByName = new();
         public DataDictionaryModel Visit(DataDictionaryParser.DataDictionaryContext context)
         {
@@ -45,7 +46,7 @@ namespace DataDictionary.Parser.Visitors
         {
             int id = int.Parse(context.INT().GetText());
             string name = Helper.ProcessString(context.STRING().GetText());
-            Domain.Models.Domain baseDomain = BuildDomain(context.domainReference());
+            DomainEntity baseDomain = BuildDomain(context.domainReference());
             ConstraintExpression? definitionalConstraint = null;
             if (context.constraint() != null)
             {
@@ -61,7 +62,7 @@ namespace DataDictionary.Parser.Visitors
         }
 
         private EnumeratedDomain BuildEnumeratedDomain(DataDictionaryParser.EnumeratedDomainDeclContext context,
-            int id, string name, Domain.Models.Domain baseDomain)
+            int id, string name, DomainEntity baseDomain)
         {
             List<Value> values = new List<Value>();
             foreach (var valueCtx in context.value())
@@ -152,7 +153,7 @@ namespace DataDictionary.Parser.Visitors
 
         private Field BuildField(DataDictionaryParser.FieldDeclContext context, int id, string name)
         {
-            Domain.Models.Domain domain = null;
+            DomainEntity domain = null;
             string? format = null;
             ConstraintExpression? constraint = null;
             Nullability? nullability = null;
@@ -210,9 +211,9 @@ namespace DataDictionary.Parser.Visitors
         }
 
         //helper methods
-        private Domain.Models.Domain BuildDomain(DataDictionaryParser.DomainReferenceContext ctx)
+        private DomainEntity BuildDomain(DataDictionaryParser.DomainReferenceContext ctx)
         {
-            Domain.Models.Domain domain = null;
+            DomainEntity domain = null;
             if (ctx.BASE_DOMAIN() != null)
             {
                 domain = PredefinedDomains.FromKeyword(ctx.BASE_DOMAIN().GetText());

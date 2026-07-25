@@ -2,6 +2,7 @@
 using DataDictionary.Domain.Models;
 using DataDictionary.Parser.ErrorHandling;
 using DataDictionary.Parser.Exceptions;
+using DataDictionary.Parser.Parsing.Errors;
 using DataDictionary.Parser.Visitors;
 
 namespace DataDictionary.Parser.Parsing
@@ -26,8 +27,13 @@ namespace DataDictionary.Parser.Parsing
             parser = new DataDictionaryParser(tokenStream);
 
             var errorListener = new DataDictionaryErrorListener();
+
+            lexer.RemoveErrorListeners();
+            lexer.AddErrorListener(errorListener);
+
             parser.RemoveErrorListeners();
             parser.AddErrorListener(errorListener);
+
             var context = parser.dataDictionary();
             if (errorListener.Errors.Count > 0)
             {
@@ -49,16 +55,13 @@ namespace DataDictionary.Parser.Parsing
             }
             catch (DataDictionaryException ex)
             {
+                var type = ex is SemanticException ? ErrorType.Semantic : ErrorType.Syntax;
                 return new ParseResult
                 {
                     Success = false,
-                    Errors = new List<SyntaxError> {
-                        new()
-                        {
-                            Line = ex.Line ?? 0,
-                            Column = ex.Column ?? 0,
-                            Message = ex.Message
-                        }
+                    Errors = new List<Error>
+                    {
+                        new Error(ex.Line ?? 0, ex.Column ?? 0, type, ex.Message)
                     }
                 };
             }

@@ -10,7 +10,7 @@ namespace DataDictionary.Domain.Enums
         String,
         Integer,
         Real,
-        Boolean,
+        Logical,
         Date,
         Graphic
     }

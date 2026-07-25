@@ -15,7 +15,7 @@ namespace DataDictionary.Domain.Models
         public static PredefinedDomain Real { get; } =
             new PredefinedDomain(-3, "Real", PredefinedDomainType.Real);
         public static PredefinedDomain Boolean { get; } =
-            new PredefinedDomain(-4, "Boolean", PredefinedDomainType.Boolean);
+            new PredefinedDomain(-4, "Logical", PredefinedDomainType.Logical);
         public static PredefinedDomain Date { get; } =
             new PredefinedDomain(-5, "Date", PredefinedDomainType.Date);
         public static PredefinedDomain Graphic { get; } =
@@ -27,7 +27,7 @@ namespace DataDictionary.Domain.Models
             "String" => String,
             "Integer" => Integer,
             "Real" => Real,
-            "Boolean" => Boolean,
+            "Logical" => Boolean,
             "Date" => Date,
             "Graphic" => Graphic,
             _ => throw new ArgumentException($"Unknown predefined domain: {keyword}", nameof(keyword))
@@ -39,7 +39,7 @@ namespace DataDictionary.Domain.Models
             PredefinedDomainType.String => String,
             PredefinedDomainType.Integer => Integer,
             PredefinedDomainType.Real => Real,
-            PredefinedDomainType.Boolean => Boolean,
+            PredefinedDomainType.Logical => Boolean,
             PredefinedDomainType.Date => Date,
             PredefinedDomainType.Graphic => Graphic,
             _ => throw new ArgumentException($"Unknown predefined domain type: {type}", nameof(type))

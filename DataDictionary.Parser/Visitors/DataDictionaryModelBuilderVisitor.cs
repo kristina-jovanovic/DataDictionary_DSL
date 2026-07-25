@@ -57,7 +57,7 @@ namespace DataDictionary.Parser.Visitors
                 return BuildEnumeratedDomain(context.enumeratedDomainDecl(), id, name, baseDomain);
             }
             SemanticDomain semanticDomain = new SemanticDomain(id, name, baseDomain, definitionalConstraint);
-            _domainsByName.Add(name, semanticDomain);
+            _domainsByName[name] = semanticDomain;   // duplikat imena hvata UniquenessCheck (ne rusimo gradnju)
             return semanticDomain;
         }
 
@@ -70,7 +70,7 @@ namespace DataDictionary.Parser.Visitors
                 values.Add(BuildValue(valueCtx));
             }
             EnumeratedDomain enumeratedDomain = new EnumeratedDomain(id, name, baseDomain, values);
-            _domainsByName.Add(name, enumeratedDomain);
+            _domainsByName[name] = enumeratedDomain;   // duplikat imena hvata UniquenessCheck
             return enumeratedDomain;
         }
         private Structure BuildStructure(DataDictionaryParser.StructureDeclContext context, int id, string name)
@@ -99,7 +99,7 @@ namespace DataDictionary.Parser.Visitors
             }
             List<Construction> constructions = context.constructionDecl().Select(BuildConstruction).ToList(); ;
             Structure structure = new Structure(id, name, structureType, constructions);
-            _structuresByName.Add(name, structure);
+            _structuresByName[name] = structure;   // duplikat imena hvata UniquenessCheck
             return structure;
         }
 

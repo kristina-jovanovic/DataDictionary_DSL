@@ -6,7 +6,7 @@ using DataDictionary.Parser.Parsing.Errors;
 
 namespace DataDictionary.Analysis.Checks
 {
-    // svaka referenca na komponentu mora da se razresi na TACNO jedno polje u celom recniku
+    // Svaka referenca na komponentu mora da se razresi na TACNO jedno polje u celom recniku
     //   symbols.FindFields(name).Count == 0  -> UndefinedReference
     //   symbols.FindFields(name).Count > 1   -> dvosmislena referenca
     public class ReferenceResolutionCheck : ISemanticCheck

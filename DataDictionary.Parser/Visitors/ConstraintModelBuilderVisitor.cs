@@ -57,12 +57,8 @@ namespace DataDictionary.Parser.Visitors
         private InConstraint BuildInConstraint(DataDictionaryParser.InConstraintContext context)
         {
             var built = context.inValue().Select(BuildInValue).ToList(); //list of inValues
-
-            var firstType = built[0].GetType();
-            if (built.Any(v => v.GetType() != firstType))
-            {
-                throw new ArgumentException("All IN values must be of the same type.", nameof(context));
-            }
+            // tip vrednosti se proverava u semantickoj fazi
+            // (ConstraintDomainCompatibilityCheck) koja skuplja gresku umesto da baca izuzetak
             return new InConstraint(built);
         }
         private ValueConstraint BuildValueConstraint(DataDictionaryParser.ValueConstraintContext context)
@@ -181,7 +177,7 @@ namespace DataDictionary.Parser.Visitors
             {
                 if (ctx.dateValue().CURRENT_DATE() != null)
                 {
-                    return new DateKeywordConstraintValue(DateKeyword.CurrentDate);
+                    return new DateKeywordConstraintValue(DateKeyword.Today); //samo dva razlicita naziva za today
                 }
                 if (ctx.dateValue().NOW() != null)
                 {
@@ -203,6 +199,7 @@ namespace DataDictionary.Parser.Visitors
         private ConstraintValue BuildInValue(DataDictionaryParser.InValueContext ctx)
         {
             //TODO: move to semantic analysis phase, but for now we can do it here
+            // mozda
             if (ctx.STRING() != null)
                 return new StringConstraintValue(Helper.ProcessString(ctx.STRING().GetText()));
             if (ctx.DATE() != null)

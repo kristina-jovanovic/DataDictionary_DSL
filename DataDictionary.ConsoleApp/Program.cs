@@ -51,6 +51,10 @@ namespace DataDictionary.ConsoleApp
                     Console.WriteLine($"  {error.Message}");
                 Console.WriteLine();
             }
+            else
+            {
+                Console.WriteLine("No semantic errors!");
+            }
 
             // Prikaz celog modela
             ModelPrinter.Print(result.Model!);

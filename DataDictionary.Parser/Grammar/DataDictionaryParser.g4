@@ -74,7 +74,7 @@ componentDecl:					ID_LABEL INT
 structureReference:				NAME_LABEL STRING											;
 
 fieldDecl:						DOMAIN_LABEL domainReference				
-								(FORMAT_LABEL format)?		//formatConstraint - ovo je regex ili cobol, ali to cemo kroz semantiku, tako da ostaje string
+								(FORMAT_LABEL format)?		// regex 
 								(NULLABILITY_LABEL NULL_CONSTRAINT)?
 								(CONSTRAINT_LABEL constraint)?
 								(DEFAULT_LABEL value)?

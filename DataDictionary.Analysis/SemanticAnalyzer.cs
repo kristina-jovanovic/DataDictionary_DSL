@@ -12,16 +12,17 @@ namespace DataDictionary.Analysis
 
         public SemanticAnalyzer()
         {
-            // Redosled iz plana: reference -> tipovi ogranicenja -> vrednosti ->
+            // redosled: reference -> tipovi ogranicenja -> vrednosti ->
             // aritmetika/agregati -> jedinstvenost -> format.
             _checks = new List<ISemanticCheck>
             {
                 new ReferenceResolutionCheck(),
-                // new ConstraintTypeCheck(),
-                // new ValueConsistencyCheck(),
-                // new ArithmeticCheck(),
-                // new UniquenessCheck(),
-                // new FormatCheck(),
+                new ConstraintTypeCheck(),
+                new ConstraintDomainCompatibilityCheck(),
+                new ValueConsistencyCheck(),
+                new ArithmeticCheck(),
+                new UniquenessCheck(),
+                new FormatCheck(),
             };
         }
 

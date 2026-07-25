@@ -8,7 +8,7 @@ namespace DataDictionary.Domain.Models
     {
         public required Domain DefinedOverDomain { get; set; }
         public Nullability? Nullability { get; set; }
-        public string? Format { get; set; } // ovo ce da bude regex ili cobol like zapis, treba uraditi proveru kroz semantiku
+        public string? Format { get; set; } //  regex, orovera kroz semantiku
         public ConstraintExpression? Constraint { get; set; }
         public Value? DefaultValue { get; set; }
         public string? Note { get; set; }

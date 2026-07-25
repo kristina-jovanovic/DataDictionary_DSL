@@ -6,6 +6,9 @@ namespace DataDictionary.ConsoleApp
     {
         static void Main(string[] args)
         {
+            // Konzola mora da koristi UTF-8 da bi se cirilica ispravno prikazivala
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             // Ucitavanje input fajla iz Examples foldera
             // AppContext.BaseDirectory je izlazni folder (bin/Debug/net10.0), pa se
             // penjemo tri nivoa nazad (net10.0 -> Debug -> bin -> projekat) do Examples

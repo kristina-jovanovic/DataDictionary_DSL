@@ -1,9 +1,9 @@
 DATA DICTIONARY
 id: 1
-name: "Inventory Form"
-author: "KJ"
-version: "1"
-date of creation: 13.05.2026.
+name: "Попис инвентара"
+author: "КЈ"
+version: "2"
+date of creation: 25.07.2026.
 {
     LOGICAL FUNCTION
     id: 1
@@ -13,111 +13,111 @@ date of creation: 13.05.2026.
 
     SEMANTIC DOMAIN
     id: 1
-    name: "Quantity"
+    name: "Количина"
     base: Integer
     constraint: > 0
 
     STRUCTURES
     id: 1
-    name: "Inventory form"
+    name: "ПописИнвентара"
     type: dataStore
     <
         id: 1
-        name: "Organization"
+        name: "Организација"
         &
             domain: String
             nullability: not null
         &
 
         id: 2
-        name: "Address"
+        name: "Адреса"
         &
             domain: String
             nullability: not null
         &
 
         id: 3
-        name: "Inventory"
+        name: "Инвентар"
         #
             type: dataStore
             <
                 id: 4
-                name: "Inventory list"
+                name: "ЛистаИнвентара"
                 #
                     type: dataStore
                     {
                         id: 5
-                        name: "No"
+                        name: "Број"
                         &
                             domain: Integer
                             constraint: > 0
                         &
 
                         id: 6
-                        name: "Name"
+                        name: "Назив"
                         &
                             domain: String
                             nullability: not null
                         &
 
                         id: 7
-                        name: "Quantity"
+                        name: "Количина"
                         &
-                            domain: "Quantity"
+                            domain: "Количина"
                             nullability: not null
                         &
 
                         id: 8
-                        name: "Price per piece"
+                        name: "ЦенаПоКомаду"
                         &
                             domain: Real
                             constraint: > 0
                         &
 
                         id: 9
-                        name: "Price in total"
+                        name: "УкупнаЦена"
                         &
                             domain: Real  
-                            constraint: = "Price per piece" * "Quantity"
+                            constraint: = "ЦенаПоКомаду" * "Количина"
                         &
                     }
                 #
 
                 id: 10
-                name: "Total"
+                name: "УкупнаВредност"
                 &
                     domain: Real
                     nullability: not null
-                    constraint:  = SUM("Price in total")
+                    constraint:  = SUM("УкупнаЦена")
                 &
             >
         #
 
         id: 11
-        name: "Delivered"
+        name: "Испорука"
         #
             type: dataStore
             /
                 id: 12
-                name: "In person"
+                name: "Лично"
                 &
                     domain: Logical
                 &
 
                 id: 13
-                name: "Via e-mail"
+                name: "ПутемЕПоште"
                 &
                     domain: Logical
                 &
 
                 id: 14
-                name: "Via post"
+                name: "ПутемПоште"
                 &
                     domain: Logical
                 &
 
                 id: 15
-                name: "Via internal system"
+                name: "ПутемИнтерногСистема"
                 &
                     domain: Logical
                 &
@@ -125,26 +125,26 @@ date of creation: 13.05.2026.
         #
 
         id: 16
-        name: "Prepared by"
+        name: "Припремио"
         #
             type: dataStore
             <
                 id: 17
-                name: "Name"
+                name: "ИмеИПрезиме"
                 &
                     domain: String
                     nullability: not null
                 &
 
                 id: 18
-                name: "Phone"
+                name: "Телефон"
                 &
                     domain: String
                     nullability: not null
                 &
 
                 id: 19
-                name: "E-mail"
+                name: "ЕПошта"
                 &
                     domain: String
 		            format: "LIKE %@%.%"
@@ -152,7 +152,7 @@ date of creation: 13.05.2026.
                 &
 
                 id: 20
-                name: "Date"
+                name: "Датум"
                 &
                     domain: Date
                     nullability: not null

@@ -1,19 +1,22 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
+using DataDictionary.Domain.Models;
+using DataDictionary.UIModel.Enums;
 
 namespace DataDictionary.UIModel
 {
     public class DateTimePickerControl : DataControl
     {
-        public required object Mode { get; set; } //proveriti, enum mozda
+        public DateTimeMode? Mode { get; set; }
         public DateTime? Min { get; set; }
         public DateTime? Max { get; set; }
-        public required string Format { get; set; } //proveriti, ubaciti neki enum mozda
+        public string? Format { get; set; }
 
         [SetsRequiredMembers]
-        public DateTimePickerControl(int id, string name, object dataType, object defaultValue,
-             string label, bool isReadOnly, bool isRequired, object mode, string format,
-            DateTime? min = null, DateTime? max = null)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired)
+        public DateTimePickerControl(int id, string name, string label, bool isRequired,
+            DateTimeMode? mode = DateTimeMode.Date, string? format = null,
+            DateTime? min = null, DateTime? max = null, DateValue? defaultValue = null)
+            : base(id, name, PredefinedDomainType.Date, label, isRequired, defaultValue)
         {
             Mode = mode;
             Min = min;

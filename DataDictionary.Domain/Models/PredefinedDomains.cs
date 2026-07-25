@@ -18,6 +18,8 @@ namespace DataDictionary.Domain.Models
             new PredefinedDomain(-4, "Boolean", PredefinedDomainType.Boolean);
         public static PredefinedDomain Date { get; } =
             new PredefinedDomain(-5, "Date", PredefinedDomainType.Date);
+        public static PredefinedDomain Graphic { get; } =
+            new PredefinedDomain(-6, "Graphic", PredefinedDomainType.Graphic);
 
         // mapiranje iz DSL kljucne reci (BASE_DOMAIN token) u odgovarajuci singleton
         public static PredefinedDomain FromKeyword(string keyword) => keyword switch
@@ -27,6 +29,7 @@ namespace DataDictionary.Domain.Models
             "Real" => Real,
             "Boolean" => Boolean,
             "Date" => Date,
+            "Graphic" => Graphic,
             _ => throw new ArgumentException($"Unknown predefined domain: {keyword}", nameof(keyword))
         };
 
@@ -38,6 +41,7 @@ namespace DataDictionary.Domain.Models
             PredefinedDomainType.Real => Real,
             PredefinedDomainType.Boolean => Boolean,
             PredefinedDomainType.Date => Date,
+            PredefinedDomainType.Graphic => Graphic,
             _ => throw new ArgumentException($"Unknown predefined domain type: {type}", nameof(type))
         };
     }

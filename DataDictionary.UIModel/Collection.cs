@@ -4,14 +4,11 @@ namespace DataDictionary.UIModel
 {
     public class Collection : Control
     {
-        //proveriti
-        public required List<Control> Controls { get; set; }
+        public required Control TemplateControl { get; set; }
         [SetsRequiredMembers]
-        public Collection(int id, string name, List<Control> controls) : base(id, name)
+        public Collection(int id, string name, Control templateContron) : base(id, name)
         {
-            if (controls == null || controls.Count == 0)
-                throw new ArgumentException("Controls list cannot be null or empty", nameof(controls));
-            Controls = controls;
+            TemplateControl = templateContron;
         }
     }
 }

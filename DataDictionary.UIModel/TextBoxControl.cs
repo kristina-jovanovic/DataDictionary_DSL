@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
+using DataDictionary.Domain.Models;
+using DataDictionary.UIModel.Enums;
 
 namespace DataDictionary.UIModel
 {
@@ -7,13 +10,13 @@ namespace DataDictionary.UIModel
         public string? Pattern { get; set; } = null;
         public int? MaxLength { get; set; } = null;
         public int? MinLength { get; set; } = null;
-        public object? EditorStyle { get; set; } = null; //ovo proveriti
+        public EditorStyle EditorStyle { get; set; }
 
         [SetsRequiredMembers]
-        public TextBoxControl(int id, string name, object dataType, object defaultValue,
-            string label, bool isReadOnly, bool isRequired,
-            string? pattern = null, int? maxLength = null, int? minLength = null, object? editorStyle = null)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired)
+        public TextBoxControl(int id, string name, PredefinedDomainType dataType,
+            string label, bool isRequired, Value? defaultValue = null,
+            string? pattern = null, int? maxLength = null, int? minLength = null, EditorStyle editorStyle = EditorStyle.SingleLine)
+            : base(id, name, dataType, label, isRequired, defaultValue)
         {
             Pattern = pattern;
             MaxLength = maxLength;

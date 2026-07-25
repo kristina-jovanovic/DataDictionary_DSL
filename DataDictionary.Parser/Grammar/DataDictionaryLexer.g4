@@ -25,7 +25,8 @@ NOTE_LABEL:					'note:'												;
 STRUCTURE_TYPE:				'dataFlow' | 'dataStore'							;
 NULL_CONSTRAINT:			'not null' | 'null'									;
 BOOLEAN:					'true' | 'false'									;
-BASE_DOMAIN:				'String' | 'Integer' | 'Real' | 'Boolean' | 'Date'	;
+BASE_DOMAIN:				'String' | 'Integer' | 'Real' | 'Boolean' 
+							| 'Date' | 'Graphic'								;
 
 L_PAREN:					'('													;
 R_PAREN:					')'													;

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataDictionary.Domain\DataDictionary.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

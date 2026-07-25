@@ -1,18 +1,21 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
+using DataDictionary.Domain.Models;
+using DataDictionary.UIModel.Enums;
 
 namespace DataDictionary.UIModel
 {
     public class ComboBoxControl : DataControl
     {
-        public required bool IsEditable { get; set; }
+        public bool IsEditable { get; set; }
         public string Placeholder { get; set; } = string.Empty;
-        public object SelectionModel { get; set; } = null; //proveriti
+        public SelectionMode SelectionModel { get; set; }
         public List<ComboBoxItem> Items { get; set; } = new List<ComboBoxItem>();
         [SetsRequiredMembers]
-        public ComboBoxControl(int id, string name, object dataType, object defaultValue,
-            string label, bool isReadOnly, bool isRequired, List<ComboBoxItem> items,
-            bool isEditable = false, string placeholder = "", object selectionModel = null)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired)
+        public ComboBoxControl(int id, string name, PredefinedDomainType dataType,
+            string label, bool isRequired, List<ComboBoxItem> items, Value? defaultValue = null,
+            bool isEditable = false, string placeholder = "", SelectionMode selectionModel = SelectionMode.Single)
+            : base(id, name, dataType, label, isRequired, defaultValue)
         {
             if (items == null || items.Count == 0)
             {
@@ -29,10 +32,9 @@ namespace DataDictionary.UIModel
     {
         public required int Id { get; set; }
         public required string Label { get; set; }
-        public required object Value { get; set; } //proveriti, generalno je to string
-        //ali moze da bude bas taj objekat neki...mada kod nas ce biti string vrv
+        public required Value Value { get; set; }
         [SetsRequiredMembers]
-        public ComboBoxItem(int id, string label, object value)
+        public ComboBoxItem(int id, string label, Value value)
         {
             Id = id;
             Label = label;

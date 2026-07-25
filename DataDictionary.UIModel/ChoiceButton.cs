@@ -1,20 +1,25 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DataDictionary.Domain.Enums;
+using DataDictionary.Domain.Models;
+using DataDictionary.UIModel.Enums;
 
 namespace DataDictionary.UIModel
 {
     public class ChoiceButton : DataControl
     {
         public required string GroupName { get; set; }
-        public required object OptionValue { get; set; } //proveriti, pritom da li treba lista ili samo ovako?
-        //treba nam vrv i bool checked
+        public required string OptionValue { get; set; } //naziv opcije, pored checkboxa ili radiobuttona
+        public required ChoiceType ChoiceType { get; set; }
+
         [SetsRequiredMembers]
-        public ChoiceButton(int id, string name, object dataType, object defaultValue,
-             string label, bool isReadOnly, bool isRequired,
-            string groupName, object optionValue)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired)
+        public ChoiceButton(int id, string name, string label, bool isRequired,
+            string groupName, string optionValue, ChoiceType choiceType,
+            BooleanValue? defaultValue = null) //default treba da bude false
+            : base(id, name, PredefinedDomainType.Boolean, label, isRequired, defaultValue)
         {
             GroupName = groupName;
             OptionValue = optionValue;
+            ChoiceType = choiceType;
         }
     }
 
@@ -22,11 +27,9 @@ namespace DataDictionary.UIModel
     public class CheckBoxControl : ChoiceButton
     {
         [SetsRequiredMembers]
-        public CheckBoxControl(int id, string name, object dataType, object defaultValue,
-             string label, bool isReadOnly, bool isRequired,
-            string groupName, object optionValue)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired,
-                  groupName, optionValue)
+        public CheckBoxControl(int id, string name, string label, bool isRequired,
+            string groupName, string optionValue)
+            : base(id, name, label, isRequired, groupName, optionValue, ChoiceType.CheckBox)
         {
 
         }
@@ -34,11 +37,9 @@ namespace DataDictionary.UIModel
     public class RadioButtonControl : ChoiceButton
     {
         [SetsRequiredMembers]
-        public RadioButtonControl(int id, string name, object dataType, object defaultValue,
-            string label, bool isReadOnly, bool isRequired,
-            string groupName, object optionValue)
-            : base(id, name, dataType, defaultValue, label, isReadOnly, isRequired,
-                  groupName, optionValue)
+        public RadioButtonControl(int id, string name, string label, bool isRequired,
+            string groupName, string optionValue)
+            : base(id, name, label, isRequired, groupName, optionValue, ChoiceType.RadioButton)
         {
         }
     }

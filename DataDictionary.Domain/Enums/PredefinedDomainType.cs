@@ -11,6 +11,7 @@ namespace DataDictionary.Domain.Enums
         Integer,
         Real,
         Boolean,
-        Date
+        Date,
+        Graphic
     }
 }

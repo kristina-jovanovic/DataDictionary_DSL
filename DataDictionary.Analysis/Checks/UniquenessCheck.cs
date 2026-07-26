@@ -29,10 +29,14 @@ namespace DataDictionary.Analysis.Checks
                 yield return e;
 
             // --- id-jevi ---
-            // komponente = strukture + polja 
+            // komponente = strukture + polja
+            // visited (po IDENTITETU objekta): referencirana struktura je ista instanca
+            // i na mestu definicije i na mestu reference — broji se samo jednom, da se ne
+            // prijavi lazan "duplicate id".
             var componentIds = new List<(int id, string name)>();
+            var visited = new HashSet<Component>(ReferenceEqualityComparer.Instance);
             foreach (var root in model.Structures)
-                CollectComponentIds(root, componentIds);
+                CollectComponentIds(root, componentIds, visited);
             foreach (var e in DuplicateIds(componentIds, "Component"))
                 yield return e;
 
@@ -50,13 +54,16 @@ namespace DataDictionary.Analysis.Checks
         }
 
         // rekurzivno kupi id-jeve svih komponenti (polja i ugnjezdenih struktura)
-        private static void CollectComponentIds(Component c, List<(int, string)> acc)
+        private static void CollectComponentIds(Component c, List<(int, string)> acc, HashSet<Component> visited)
         {
+            // vec posecena (npr. struktura stigla preko reference) -> ne dupliraj
+            if (!visited.Add(c))
+                return;
             acc.Add((c.Id, c.Name));
             if (c is Structure s)
                 foreach (var con in s.Constructions)
                     foreach (var comp in con.Components)
-                        CollectComponentIds(comp, acc);
+                        CollectComponentIds(comp, acc, visited);
         }
 
         private static IEnumerable<SemanticError> DuplicateNames(IEnumerable<string> names, string kind)

@@ -16,6 +16,11 @@ namespace DataDictionary.Parser.Visitors
         private readonly ConstraintModelBuilderVisitor _constraintBuilder = new();
         private readonly Dictionary<string, DomainEntity> _domainsByName = new();
         private readonly Dictionary<string, Structure> _structuresByName = new();
+        // Deklaracije top-level struktura po imenu (za razresavanje referenci UNAPRED:
+        // korena struktura moze da referencira globalnu strukturu definisanu KASNIJE u fajlu)
+        private readonly Dictionary<string, DataDictionaryParser.StructureDeclContext> _topLevelStructureDecls = new();
+        // Cuvar od ciklicnih referenci pri lenjoj (on-demand) gradnji referenciranih struktura
+        private readonly HashSet<string> _structuresBeingBuilt = new();
         public DataDictionaryModel Visit(DataDictionaryParser.DataDictionaryContext context)
         {
             int id = int.Parse(context.INT().GetText());
@@ -29,7 +34,24 @@ namespace DataDictionary.Parser.Visitors
             }
             List<LogicalFunction>? logicalFunctions = context.logicalFunctionDecl()?.Select(BuildLogicalFunction).ToList();
             List<SemanticDomain>? semanticDomains = context.semanticDomainDecl()?.Select(BuildSemanticDomain).ToList();
-            List<Structure>? structures = context.structureDecl()?.Select(ctx => BuildStructure(ctx, 0, string.Empty)).ToList();
+            // Pass 1: registruj imena svih top-level struktura pre gradnje tela, da bi
+            // referenca UNAPRED (na strukturu definisanu kasnije u fajlu) mogla da se razresi.
+            var topLevelDecls = context.structureDecl();
+            if (topLevelDecls != null)
+            {
+                foreach (var sd in topLevelDecls)
+                    if (sd.STRING() != null)
+                        _topLevelStructureDecls[Helper.ProcessString(sd.STRING().GetText())] = sd;
+            }
+
+            // Pass 2: izgradi sve top-level strukture (redom kako su napisane). Reference se
+            // razresavaju usput (lenjo), a svaka struktura se gradi tacno jednom (get-or-build).
+            List<Structure> structures = new();
+            if (topLevelDecls != null)
+            {
+                foreach (var sd in topLevelDecls)
+                    structures.Add(GetOrBuildTopLevelStructure(sd));
+            }
             // ove vrednosti za id i name ce biti pregazene za definisanje korene strukture
             return new DataDictionaryModel(id, name, author, version, dateOfCreation, structures, logicalFunctions, semanticDomains);
         }
@@ -103,6 +125,45 @@ namespace DataDictionary.Parser.Visitors
             return structure;
         }
 
+        // Vrati vec izgradjenu top-level strukturu iz kesa, ili je izgradi sada.
+        // (Referenca iz korene strukture je mozda vec izgradila globalnu strukturu lenjo.)
+        private Structure GetOrBuildTopLevelStructure(DataDictionaryParser.StructureDeclContext ctx)
+        {
+            if (ctx.STRING() != null)
+            {
+                string name = Helper.ProcessString(ctx.STRING().GetText());
+                if (_structuresByName.TryGetValue(name, out var existing))
+                    return existing;
+            }
+            return BuildStructure(ctx, 0, string.Empty);
+        }
+
+        // Razresi referencu na strukturu po imenu:
+        //  - vec izgradjena                                  -> vrati iz kesa
+        //  - top-level, jos negradjena (referenca unapred)   -> izgradi je sada (lenjo)
+        //  - inace                                           -> nepoznata struktura
+        private Structure ResolveStructureReference(string name)
+        {
+            if (_structuresByName.TryGetValue(name, out var built))
+                return built;
+
+            if (_topLevelStructureDecls.TryGetValue(name, out var decl))
+            {
+                if (!_structuresBeingBuilt.Add(name))
+                    throw new ArgumentException($"Cyclic structure reference: {name}");
+                try
+                {
+                    return BuildStructure(decl, 0, string.Empty);
+                }
+                finally
+                {
+                    _structuresBeingBuilt.Remove(name);
+                }
+            }
+
+            throw new ArgumentException($"Unknown structure: {name}");
+        }
+
         private Construction BuildConstruction(DataDictionaryParser.ConstructionDeclContext context)
         {
             if (context.aggregationDecl() != null)
@@ -132,13 +193,10 @@ namespace DataDictionary.Parser.Visitors
             }
             else if (context.structureReference() != null)
             {
-                Structure structure;
                 if (context.structureReference().STRING() != null)
                 {
                     string structureName = Helper.ProcessString(context.structureReference().STRING().GetText());
-                    if (!_structuresByName.TryGetValue(structureName, out structure))
-                        throw new ArgumentException($"Unknown structure: {structureName}");
-                    return structure;
+                    return ResolveStructureReference(structureName);
                 }
                 throw new ArgumentException("Structure reference must have a name.");
             }

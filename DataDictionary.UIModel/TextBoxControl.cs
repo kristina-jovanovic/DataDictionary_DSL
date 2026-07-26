@@ -15,8 +15,9 @@ namespace DataDictionary.UIModel
         [SetsRequiredMembers]
         public TextBoxControl(int id, string name, PredefinedDomainType dataType,
             string label, bool isRequired, Value? defaultValue = null,
-            string? pattern = null, int? maxLength = null, int? minLength = null, EditorStyle editorStyle = EditorStyle.SingleLine)
-            : base(id, name, dataType, label, isRequired, defaultValue)
+            string? pattern = null, int? maxLength = null, int? minLength = null, EditorStyle editorStyle = EditorStyle.SingleLine,
+            ConstraintUI? restrictedValue = null, ConstraintUI? computedValue = null)
+            : base(id, name, dataType, label, isRequired, defaultValue, restrictedValue, computedValue)
         {
             Pattern = pattern;
             MaxLength = maxLength;

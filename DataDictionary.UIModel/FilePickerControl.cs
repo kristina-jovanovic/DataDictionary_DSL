@@ -7,10 +7,10 @@ namespace DataDictionary.UIModel
 {
     public class FilePickerControl : DataControl
     {
-        public required FileFormat FileFormat { get; set; }
+        public string? FileFormat { get; set; }
         [SetsRequiredMembers]
         public FilePickerControl(int id, string name, string label, bool isRequired,
-            Value? defaultValue = null, FileFormat fileFormat = FileFormat.None)
+            Value? defaultValue = null, string? fileFormat = null)
             : base(id, name, PredefinedDomainType.Graphic, label, isRequired, defaultValue)
         {
             FileFormat = fileFormat;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Text;
+using DataDictionary.Domain;
 using DataDictionary.Domain.Enums;
 using DataDictionary.Domain.Models;
 using DataDictionary.Domain.Models.Constraints;
@@ -27,7 +28,7 @@ namespace DataDictionary.Analysis.Checks
             foreach (var field in symbols.AllFields)
             {
                 if (field.Constraint == null) continue;
-                var baseType = SymbolTable.ResolveBaseType(field.DefinedOverDomain);
+                var baseType = DomainHelper.ResolveBaseType(field.DefinedOverDomain);
                 if (baseType == null) continue;
                 foreach (var e in CheckConstraint(field.Name, field.Constraint, baseType.Value))
                     yield return e;

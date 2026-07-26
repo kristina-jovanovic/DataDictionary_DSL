@@ -1,3 +1,4 @@
+using DataDictionary.Domain;
 using DataDictionary.Domain.Models;
 using DataDictionary.Parser.Exceptions;
 using DataDictionary.Parser.Parsing.Errors;
@@ -14,7 +15,7 @@ namespace DataDictionary.Analysis.Checks
             foreach (var sd in model.SemanticDomains ?? Enumerable.Empty<SemanticDomain>())
             {
                 if (sd is not EnumeratedDomain ed) continue;
-                var baseType = SymbolTable.ResolveBaseType(ed.BaseDomain);
+                var baseType = DomainHelper.ResolveBaseType(ed.BaseDomain);
                 if (baseType == null) continue;   // ciklus u domenu — hvata druga provera
                 foreach (var value in ed.AllowedValues)
                     if (!DomainTypeRules.IsCompatible(value, baseType.Value))
@@ -27,7 +28,7 @@ namespace DataDictionary.Analysis.Checks
             foreach (var field in symbols.AllFields)
             {
                 if (field.DefaultValue == null) continue;
-                var baseType = SymbolTable.ResolveBaseType(field.DefinedOverDomain);
+                var baseType = DomainHelper.ResolveBaseType(field.DefinedOverDomain);
                 if (baseType == null) continue;
                 if (!DomainTypeRules.IsCompatible(field.DefaultValue, baseType.Value))
                     yield return new SemanticError(

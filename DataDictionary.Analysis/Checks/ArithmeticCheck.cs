@@ -3,6 +3,7 @@ using DataDictionary.Domain.Models.Constraints.Arithmetic;
 using DataDictionary.Domain.Models;
 using DataDictionary.Parser.Exceptions;
 using DataDictionary.Parser.Parsing.Errors;
+using DataDictionary.Domain;
 
 namespace DataDictionary.Analysis.Checks
 {
@@ -66,7 +67,7 @@ namespace DataDictionary.Analysis.Checks
         {
             var matches = symbols.FindFields(name);
             if (matches.Count != 1) return null;
-            return SymbolTable.ResolveBaseType(matches[0].DefinedOverDomain);
+            return DomainHelper.ResolveBaseType(matches[0].DefinedOverDomain);
         }
 
         private static bool IsAggregateCompatible(AggregateFunction fun, PredefinedDomainType type) => fun switch

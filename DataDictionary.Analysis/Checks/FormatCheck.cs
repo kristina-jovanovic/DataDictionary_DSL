@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using DataDictionary.Domain;
 using DataDictionary.Domain.Enums;
 using DataDictionary.Domain.Models;
 using DataDictionary.Parser.Exceptions;
@@ -16,7 +17,7 @@ namespace DataDictionary.Analysis.Checks
             foreach (var field in symbols.AllFields)
             {
                 if (field.Format == null) continue;
-                var baseType = SymbolTable.ResolveBaseType(field.DefinedOverDomain);
+                var baseType = DomainHelper.ResolveBaseType(field.DefinedOverDomain);
                 if (baseType == null) continue;
 
                 if (baseType.Value != PredefinedDomainType.String)

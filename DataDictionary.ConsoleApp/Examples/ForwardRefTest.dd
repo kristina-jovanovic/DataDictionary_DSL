@@ -1,0 +1,43 @@
+DATA DICTIONARY
+id: 1
+name: "Forward reference test"
+author: "KJ"
+version: "1"
+date of creation: 13.05.2026.
+{
+    STRUCTURES
+    id: 1
+    name: "Root"
+    type: dataStore
+    <
+        id: 2
+        name: "Title"
+        &
+            domain: String
+            nullability: not null
+        &
+
+        id: 3
+        name: "Address ref"
+        #
+            name: "Address"
+        #
+    >
+
+    id: 4
+    name: "Address"
+    type: dataStore
+    <
+        id: 5
+        name: "Street"
+        &
+            domain: String
+        &
+
+        id: 6
+        name: "City"
+        &
+            domain: String
+        &
+    >
+}

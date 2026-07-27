@@ -1,5 +1,7 @@
 ﻿using DataDictionary.Analysis;
 using DataDictionary.Parser.Parsing;
+using DataDictionary.Transformation;
+using DataDictionary.Transformation.Serialization;
 
 namespace DataDictionary.ConsoleApp
 {
@@ -58,6 +60,22 @@ namespace DataDictionary.ConsoleApp
 
             // Prikaz celog modela
             ModelPrinter.Print(result.Model!);
+
+            // === Transformacija u UI model + JSON (u izradi) ===
+            // Bezbedno: dok metode UiModelBuilder-a jos bacaju NotImplementedException,
+            // ovaj blok samo ispise poruku i ne kvari postojeci (pozitivan) test.
+            try
+            {
+                var uiRoot = new UiModelBuilder().Build(result.Model!);
+                string outPath = Path.Combine(AppContext.BaseDirectory,
+                    "..", "..", "..", "Examples", "output.json");
+                UiModelJsonWriter.WriteToFile(uiRoot, outPath);
+                Console.WriteLine($"\nUI model serijalizovan u: {outPath}");
+            }
+            catch (NotImplementedException ex)
+            {
+                Console.WriteLine($"\n[Transformacija jos nije implementirana: {ex.Message}]");
+            }
         }
     }
 }

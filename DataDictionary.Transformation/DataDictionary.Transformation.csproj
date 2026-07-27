@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Ulazni model (recnik) i izlazni UI metamodel -->
+    <ProjectReference Include="..\DataDictionary.Domain\DataDictionary.Domain.csproj" />
+    <ProjectReference Include="..\DataDictionary.UIModel\DataDictionary.UIModel.csproj" />
+  </ItemGroup>
+
+</Project>

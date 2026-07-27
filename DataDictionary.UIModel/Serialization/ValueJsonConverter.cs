@@ -25,8 +25,7 @@ namespace DataDictionary.UIModel.Serialization
                     writer.WriteBooleanValue(b.Value);
                     break;
                 case DateValue d:
-                    // format usklađen sa DSL-om; po potrebi promeni (npr. ISO "yyyy-MM-dd")
-                    writer.WriteStringValue(d.Value.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture));
+                    writer.WriteStringValue(d.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                     break;
                 default:
                     throw new NotSupportedException($"Unsupported Value type: {value.GetType().Name}");

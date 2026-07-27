@@ -1,0 +1,272 @@
+{
+  "type": "Panel",
+  "title": "Inventory form",
+  "controls": [
+    {
+      "type": "TextBox",
+      "editorStyle": "SingleLine",
+      "dataType": "String",
+      "label": "Organization",
+      "isRequired": true,
+      "id": 2,
+      "name": "Organization"
+    },
+    {
+      "type": "TextBox",
+      "editorStyle": "SingleLine",
+      "dataType": "String",
+      "label": "Address",
+      "isRequired": true,
+      "id": 3,
+      "name": "Address"
+    },
+    {
+      "type": "Panel",
+      "title": "Inventory",
+      "controls": [
+        {
+          "type": "Collection",
+          "templateControl": {
+            "type": "Panel",
+            "title": "Inventory list",
+            "controls": [
+              {
+                "type": "TextBox",
+                "editorStyle": "SingleLine",
+                "dataType": "Integer",
+                "label": "No",
+                "isRequired": true,
+                "restrictedValue": {
+                  "rules": [
+                    {
+                      "targetName": "InventoryList.No",
+                      "operator": ">",
+                      "value": 0
+                    }
+                  ]
+                },
+                "id": 7,
+                "name": "No"
+              },
+              {
+                "type": "TextBox",
+                "editorStyle": "SingleLine",
+                "dataType": "String",
+                "label": "Name",
+                "isRequired": true,
+                "id": 8,
+                "name": "Name"
+              },
+              {
+                "type": "TextBox",
+                "editorStyle": "SingleLine",
+                "dataType": "Integer",
+                "label": "Quantity",
+                "isRequired": true,
+                "id": 9,
+                "name": "Quantity"
+              },
+              {
+                "type": "TextBox",
+                "editorStyle": "SingleLine",
+                "dataType": "Real",
+                "label": "Price per piece",
+                "isRequired": true,
+                "restrictedValue": {
+                  "rules": [
+                    {
+                      "targetName": "InventoryList.Price per piece",
+                      "operator": ">",
+                      "value": 0
+                    }
+                  ]
+                },
+                "id": 10,
+                "name": "PricePerPiece"
+              },
+              {
+                "type": "TextBox",
+                "editorStyle": "SingleLine",
+                "dataType": "Real",
+                "label": "Price in total",
+                "isRequired": true,
+                "computedValue": {
+                  "rules": [
+                    {
+                      "operator": "*",
+                      "value": [
+                        {
+                          "targetName": "InventoryList.PricePerPiece"
+                        },
+                        {
+                          "targetName": "InventoryList.Quantity"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "id": 11,
+                "name": "PriceInTotal"
+              }
+            ],
+            "layout": {
+              "type": "Grid",
+              "showGridLines": true
+            },
+            "id": 6,
+            "name": "InventoryList"
+          },
+          "id": 5,
+          "name": "InventoryList"
+        },
+        {
+          "type": "TextBox",
+          "editorStyle": "SingleLine",
+          "dataType": "Real",
+          "label": "Total",
+          "isRequired": true,
+          "computedValue": {
+            "rules": [
+              {
+                "operator": "SUM",
+                "value": [
+                  {
+                    "targetName": "PriceInTotal"
+                  }
+                ]
+              }
+            ]
+          },
+          "id": 12,
+          "name": "Total"
+        }
+      ],
+      "layout": {
+        "type": "Flow"
+      },
+      "id": 4,
+      "name": "Inventory"
+    },
+    {
+      "type": "Panel",
+      "title": "Delivered",
+      "controls": [
+        {
+          "type": "CheckBox",
+          "groupName": "Delivered",
+          "optionValue": "InPerson",
+          "dataType": "Logical",
+          "label": "In person",
+          "isRequired": false,
+          "id": 14,
+          "name": "InPerson"
+        },
+        {
+          "type": "CheckBox",
+          "groupName": "Delivered",
+          "optionValue": "ViaE-mail",
+          "dataType": "Logical",
+          "label": "Via e-mail",
+          "isRequired": false,
+          "id": 15,
+          "name": "ViaE-mail"
+        },
+        {
+          "type": "CheckBox",
+          "groupName": "Delivered",
+          "optionValue": "ViaPost",
+          "dataType": "Logical",
+          "label": "Via post",
+          "isRequired": false,
+          "id": 16,
+          "name": "ViaPost"
+        },
+        {
+          "type": "CheckBox",
+          "groupName": "Delivered",
+          "optionValue": "ViaInternalSystem",
+          "dataType": "Logical",
+          "label": "Via internal system",
+          "isRequired": false,
+          "id": 17,
+          "name": "ViaInternalSystem"
+        }
+      ],
+      "layout": {
+        "type": "Flow"
+      },
+      "id": 13,
+      "name": "Delivered"
+    },
+    {
+      "type": "Panel",
+      "title": "Prepared by",
+      "controls": [
+        {
+          "type": "TextBox",
+          "editorStyle": "SingleLine",
+          "dataType": "String",
+          "label": "Name",
+          "isRequired": true,
+          "id": 19,
+          "name": "Name"
+        },
+        {
+          "type": "TextBox",
+          "editorStyle": "SingleLine",
+          "dataType": "String",
+          "label": "Phone",
+          "isRequired": true,
+          "id": 20,
+          "name": "Phone"
+        },
+        {
+          "type": "TextBox",
+          "editorStyle": "SingleLine",
+          "dataType": "String",
+          "label": "E-mail",
+          "isRequired": true,
+          "restrictedValue": {
+            "rules": [
+              {
+                "targetName": "E-mail",
+                "operator": "LIKE",
+                "value": "%@%.%"
+              }
+            ]
+          },
+          "id": 21,
+          "name": "E-mail"
+        },
+        {
+          "type": "DateTimePicker",
+          "mode": "Date",
+          "dataType": "Date",
+          "label": "Date",
+          "isRequired": true,
+          "restrictedValue": {
+            "rules": [
+              {
+                "targetName": "Date",
+                "operator": "<=",
+                "value": "today"
+              }
+            ]
+          },
+          "id": 22,
+          "name": "Date"
+        }
+      ],
+      "layout": {
+        "type": "Flow"
+      },
+      "id": 18,
+      "name": "PreparedBy"
+    }
+  ],
+  "layout": {
+    "type": "Flow"
+  },
+  "id": 1,
+  "name": "InventoryForm"
+}

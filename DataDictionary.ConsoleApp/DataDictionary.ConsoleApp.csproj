@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataDictionary.Parser\DataDictionary.Parser.csproj" />
     <ProjectReference Include="..\DataDictionary.Analysis\DataDictionary.Analysis.csproj" />
+    <ProjectReference Include="..\DataDictionary.Transformation\DataDictionary.Transformation.csproj" />
   </ItemGroup>
 
 </Project>

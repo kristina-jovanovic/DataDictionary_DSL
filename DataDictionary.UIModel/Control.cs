@@ -16,7 +16,11 @@ namespace DataDictionary.UIModel
     [JsonDerivedType(typeof(FilePickerControl), "FilePicker")]
     public class Control
     {
+        // Opcija 1: "type" diskriminator STJ uvek pise prvi (ne moze da se pomeri),
+        // ali JsonPropertyOrder gura id/name odmah iza njega -> "type, id, name, ...".
+        [JsonPropertyOrder(-2)]
         public required int Id { get; set; }
+        [JsonPropertyOrder(-1)]
         public required string Name { get; set; }
 
         [SetsRequiredMembers]

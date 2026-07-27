@@ -133,8 +133,10 @@ namespace DataDictionary.Transformation
                 default:
                     throw new ArgumentException("Unsupported Domain type.");
             }
+            string controlName = NameHelper.ToIdentifier(field.Name);
             result.ComputedValue = BuildComputedValue(field.Constraint, ctx);
-            result.RestrictedValue = BuildRestrictedValue(field.Constraint, field.Name, ctx);
+            result.IsReadOnly = result.ComputedValue != null;       // racunato polje => read-only
+            result.RestrictedValue = BuildRestrictedValue(field.Constraint ?? domain.SemanticConstraint, controlName, ctx);
             return result;
         }
 

@@ -16,7 +16,7 @@ namespace DataDictionary.ConsoleApp
             // AppContext.BaseDirectory je izlazni folder (bin/Debug/net10.0), pa se
             // penjemo tri nivoa nazad (net10.0 -> Debug -> bin -> projekat) do Examples
             string path = Path.Combine(AppContext.BaseDirectory,
-                "..", "..", "..", "Examples", "InventoryForm.dd");
+                "..", "..", "..", "Examples", "PopisInventara.dd");
             string input = File.ReadAllText(path);
 
             // Kreiranje parser servisa

@@ -9,22 +9,30 @@ namespace DataDictionary.Transformation
     //   "Price per piece" -> ToIdentifier -> "PricePerPiece"
     //   "Организација"     -> ToIdentifier -> "Организација"
     //   "Цена по комаду"   -> ToIdentifier -> "ЦенаПоКомаду"
+    //   "Via e-mail"       -> ToIdentifier -> "ViaEMail"   
     public static class NameHelper
     {
-        // PascalCase spajanje reci: ukloni razmake, svaku rec pocni velikim slovom.
-        // Radi i za cirilicu (ToUpperInvariant koristi Unicode mapiranje).
+        // PascalCase spajanje reci: svaki znak koji nije slovo ili cifra (razmak, crtica,
+        // tacka, ...) je granica reci i izostavlja se; svaka rec pocinje velikim slovom.
+        // Radi i za cirilicu (char.IsLetterOrDigit / ToUpperInvariant koriste Unicode)
         public static string ToIdentifier(string humanName)
         {
             if (string.IsNullOrWhiteSpace(humanName))
                 return humanName ?? string.Empty;
 
-            var parts = humanName.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
             var sb = new StringBuilder(humanName.Length);
-            foreach (var part in parts)
+            bool startOfWord = true;   // sledece slovo/cifra pocinje novu rec
+            foreach (char ch in humanName)
             {
-                sb.Append(char.ToUpperInvariant(part[0]));
-                if (part.Length > 1)
-                    sb.Append(part, 1, part.Length - 1);
+                if (char.IsLetterOrDigit(ch))
+                {
+                    sb.Append(startOfWord ? char.ToUpperInvariant(ch) : ch);
+                    startOfWord = false;
+                }
+                else
+                {
+                    startOfWord = true;   // razmak/crtica/tacka... -> granica reci
+                }
             }
             return sb.ToString();
         }

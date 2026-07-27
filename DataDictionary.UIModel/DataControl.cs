@@ -10,10 +10,10 @@ namespace DataDictionary.UIModel
         public required PredefinedDomainType DataType { get; set; }
         public Value? DefaultValue { get; set; }
         public required string Label { get; set; }
-        public required bool IsRequired { get; set; }
-        // true samo za racunata polja (ComputedValue); podrazumevano false pa se ne serijalizuje
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool IsReadOnly { get; set; }
+        public required bool IsRequired { get; set; } = true;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool IsReadOnly { get; set; } = false;
         public ConstraintUI? RestrictedValue { get; set; }
         public ConstraintUI? ComputedValue { get; set; }
         [SetsRequiredMembers]

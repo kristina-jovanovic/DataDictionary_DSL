@@ -1,272 +1,267 @@
 {
   "type": "Panel",
-  "title": "Inventory form",
+  "id": 1,
+  "name": "ПописИнвентара",
+  "title": "Попис инвентара",
+  "layout": {
+    "type": "Flow"
+  },
   "controls": [
     {
       "type": "TextBox",
-      "editorStyle": "SingleLine",
-      "dataType": "String",
-      "label": "Organization",
-      "isRequired": true,
       "id": 2,
-      "name": "Organization"
+      "name": "Организација",
+      "dataType": "String",
+      "label": "Организација",
+      "isRequired": true
     },
     {
       "type": "TextBox",
-      "editorStyle": "SingleLine",
-      "dataType": "String",
-      "label": "Address",
-      "isRequired": true,
       "id": 3,
-      "name": "Address"
+      "name": "Адреса",
+      "dataType": "String",
+      "label": "Адреса",
+      "isRequired": true
     },
     {
       "type": "Panel",
-      "title": "Inventory",
+      "id": 4,
+      "name": "ЛистаИнвентара",
+      "title": "Листа инвентара",
+      "layout": {
+        "type": "Flow"
+      },
       "controls": [
         {
           "type": "Collection",
-          "templateControl": {
+          "id": 5,
+          "name": "СтавкаЛисте",
+          "template": {
             "type": "Panel",
-            "title": "Inventory list",
+            "id": 6,
+            "name": "СтавкаЛисте",
+            "title": "Ставка листе",
+            "layout": {
+              "type": "Grid",
+              "showGridLines": true
+            },
             "controls": [
               {
                 "type": "TextBox",
-                "editorStyle": "SingleLine",
-                "dataType": "Integer",
-                "label": "No",
-                "isRequired": true,
-                "restrictedValue": {
-                  "rules": [
-                    {
-                      "targetName": "InventoryList.No",
-                      "operator": ">",
-                      "value": 0
-                    }
-                  ]
-                },
                 "id": 7,
-                "name": "No"
-              },
-              {
-                "type": "TextBox",
-                "editorStyle": "SingleLine",
-                "dataType": "String",
-                "label": "Name",
-                "isRequired": true,
-                "id": 8,
-                "name": "Name"
-              },
-              {
-                "type": "TextBox",
-                "editorStyle": "SingleLine",
+                "name": "Број",
                 "dataType": "Integer",
-                "label": "Quantity",
-                "isRequired": true,
-                "id": 9,
-                "name": "Quantity"
-              },
-              {
-                "type": "TextBox",
-                "editorStyle": "SingleLine",
-                "dataType": "Real",
-                "label": "Price per piece",
+                "label": "Број",
                 "isRequired": true,
                 "restrictedValue": {
                   "rules": [
                     {
-                      "targetName": "InventoryList.Price per piece",
+                      "targetName": "СтавкаЛисте.Број",
                       "operator": ">",
                       "value": 0
                     }
                   ]
-                },
-                "id": 10,
-                "name": "PricePerPiece"
+                }
               },
               {
                 "type": "TextBox",
-                "editorStyle": "SingleLine",
-                "dataType": "Real",
-                "label": "Price in total",
+                "id": 8,
+                "name": "Назив",
+                "dataType": "String",
+                "label": "Назив",
+                "isRequired": true
+              },
+              {
+                "type": "TextBox",
+                "id": 9,
+                "name": "Количина",
+                "dataType": "Integer",
+                "label": "Количина",
                 "isRequired": true,
+                "restrictedValue": {
+                  "rules": [
+                    {
+                      "targetName": "СтавкаЛисте.Количина",
+                      "operator": ">",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "TextBox",
+                "id": 10,
+                "name": "ЦенаПоКомаду",
+                "dataType": "Real",
+                "label": "Цена по комаду",
+                "isRequired": true,
+                "restrictedValue": {
+                  "rules": [
+                    {
+                      "targetName": "СтавкаЛисте.ЦенаПоКомаду",
+                      "operator": ">",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "TextBox",
+                "id": 11,
+                "name": "УкупнаЦена",
+                "dataType": "Real",
+                "label": "Укупна цена",
+                "isRequired": true,
+                "isReadOnly": true,
                 "computedValue": {
                   "rules": [
                     {
                       "operator": "*",
                       "value": [
                         {
-                          "targetName": "InventoryList.PricePerPiece"
+                          "targetName": "СтавкаЛисте.ЦенаПоКомаду"
                         },
                         {
-                          "targetName": "InventoryList.Quantity"
+                          "targetName": "СтавкаЛисте.Количина"
                         }
                       ]
                     }
                   ]
-                },
-                "id": 11,
-                "name": "PriceInTotal"
+                }
               }
-            ],
-            "layout": {
-              "type": "Grid",
-              "showGridLines": true
-            },
-            "id": 6,
-            "name": "InventoryList"
-          },
-          "id": 5,
-          "name": "InventoryList"
+            ]
+          }
         },
         {
           "type": "TextBox",
-          "editorStyle": "SingleLine",
+          "id": 12,
+          "name": "УкупнаВредност",
           "dataType": "Real",
-          "label": "Total",
+          "label": "Укупна вредност",
           "isRequired": true,
+          "isReadOnly": true,
           "computedValue": {
             "rules": [
               {
                 "operator": "SUM",
                 "value": [
                   {
-                    "targetName": "PriceInTotal"
+                    "targetName": "УкупнаЦена"
                   }
                 ]
               }
             ]
-          },
-          "id": 12,
-          "name": "Total"
+          }
         }
-      ],
-      "layout": {
-        "type": "Flow"
-      },
-      "id": 4,
-      "name": "Inventory"
+      ]
     },
     {
       "type": "Panel",
-      "title": "Delivered",
-      "controls": [
-        {
-          "type": "CheckBox",
-          "groupName": "Delivered",
-          "optionValue": "InPerson",
-          "dataType": "Logical",
-          "label": "In person",
-          "isRequired": false,
-          "id": 14,
-          "name": "InPerson"
-        },
-        {
-          "type": "CheckBox",
-          "groupName": "Delivered",
-          "optionValue": "ViaE-mail",
-          "dataType": "Logical",
-          "label": "Via e-mail",
-          "isRequired": false,
-          "id": 15,
-          "name": "ViaE-mail"
-        },
-        {
-          "type": "CheckBox",
-          "groupName": "Delivered",
-          "optionValue": "ViaPost",
-          "dataType": "Logical",
-          "label": "Via post",
-          "isRequired": false,
-          "id": 16,
-          "name": "ViaPost"
-        },
-        {
-          "type": "CheckBox",
-          "groupName": "Delivered",
-          "optionValue": "ViaInternalSystem",
-          "dataType": "Logical",
-          "label": "Via internal system",
-          "isRequired": false,
-          "id": 17,
-          "name": "ViaInternalSystem"
-        }
-      ],
-      "layout": {
-        "type": "Flow"
-      },
       "id": 13,
-      "name": "Delivered"
+      "name": "Испорука",
+      "title": "Испорука",
+      "layout": {
+        "type": "Flow"
+      },
+      "controls": [
+        {
+          "type": "CheckBox",
+          "id": 14,
+          "name": "Лично",
+          "groupName": "Испорука",
+          "optionValue": "Лично",
+          "dataType": "Logical",
+          "label": "Лично"
+        },
+        {
+          "type": "CheckBox",
+          "id": 15,
+          "name": "ПутемЕПоште",
+          "groupName": "Испорука",
+          "optionValue": "ПутемЕПоште",
+          "dataType": "Logical",
+          "label": "Путем е-поште"
+        },
+        {
+          "type": "CheckBox",
+          "id": 16,
+          "name": "ПутемПоште",
+          "groupName": "Испорука",
+          "optionValue": "ПутемПоште",
+          "dataType": "Logical",
+          "label": "Путем поште"
+        },
+        {
+          "type": "CheckBox",
+          "id": 17,
+          "name": "ПутемИнтерногСистема",
+          "groupName": "Испорука",
+          "optionValue": "ПутемИнтерногСистема",
+          "dataType": "Logical",
+          "label": "Путем интерног система"
+        }
+      ]
     },
     {
       "type": "Panel",
-      "title": "Prepared by",
+      "id": 18,
+      "name": "Припремио",
+      "title": "Припремио",
+      "layout": {
+        "type": "Flow"
+      },
       "controls": [
         {
           "type": "TextBox",
-          "editorStyle": "SingleLine",
-          "dataType": "String",
-          "label": "Name",
-          "isRequired": true,
           "id": 19,
-          "name": "Name"
+          "name": "ИмеИПрезиме",
+          "dataType": "String",
+          "label": "Име и презиме",
+          "isRequired": true
         },
         {
           "type": "TextBox",
-          "editorStyle": "SingleLine",
-          "dataType": "String",
-          "label": "Phone",
-          "isRequired": true,
           "id": 20,
-          "name": "Phone"
+          "name": "Телефон",
+          "dataType": "String",
+          "label": "Телефон",
+          "isRequired": true
         },
         {
           "type": "TextBox",
-          "editorStyle": "SingleLine",
+          "id": 21,
+          "name": "ЕПошта",
           "dataType": "String",
-          "label": "E-mail",
+          "label": "Е пошта",
           "isRequired": true,
           "restrictedValue": {
             "rules": [
               {
-                "targetName": "E-mail",
+                "targetName": "ЕПошта",
                 "operator": "LIKE",
                 "value": "%@%.%"
               }
             ]
-          },
-          "id": 21,
-          "name": "E-mail"
+          }
         },
         {
           "type": "DateTimePicker",
-          "mode": "Date",
+          "id": 22,
+          "name": "Датум",
           "dataType": "Date",
-          "label": "Date",
+          "label": "Датум",
           "isRequired": true,
           "restrictedValue": {
             "rules": [
               {
-                "targetName": "Date",
+                "targetName": "Датум",
                 "operator": "<=",
                 "value": "today"
               }
             ]
-          },
-          "id": 22,
-          "name": "Date"
+          }
         }
-      ],
-      "layout": {
-        "type": "Flow"
-      },
-      "id": 18,
-      "name": "PreparedBy"
+      ]
     }
-  ],
-  "layout": {
-    "type": "Flow"
-  },
-  "id": 1,
-  "name": "InventoryForm"
+  ]
 }

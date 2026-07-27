@@ -14,7 +14,7 @@ namespace DataDictionary.UIModel
 
         [SetsRequiredMembers]
         public DateTimePickerControl(int id, string name, string label, bool isRequired,
-            DateTimeMode? mode = DateTimeMode.Date, string? format = null,
+            DateTimeMode? mode = null, string? format = null,
             DateTime? min = null, DateTime? max = null, DateValue? defaultValue = null)
             : base(id, name, PredefinedDomainType.Date, label, isRequired, defaultValue)
         {

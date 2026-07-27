@@ -19,139 +19,139 @@ date of creation: 25.07.2026.
 
     STRUCTURES
     id: 1
-    name: "ПописИнвентара"
+    name: "Попис инвентара"
     type: dataStore
     <
-        id: 1
+        id: 2
         name: "Организација"
         &
             domain: String
             nullability: not null
         &
 
-        id: 2
+        id: 3
         name: "Адреса"
         &
             domain: String
             nullability: not null
         &
 
-        id: 3
-        name: "Инвентар"
+        id: 4
+        name: "Листа инвентара"
         #
             type: dataStore
             <
-                id: 4
-                name: "ЛистаИнвентара"
+                id: 5
+                name: "Ставка листе"
                 #
                     type: dataStore
                     {
-                        id: 5
+                        id: 6
                         name: "Број"
                         &
                             domain: Integer
                             constraint: > 0
                         &
 
-                        id: 6
+                        id: 7
                         name: "Назив"
                         &
                             domain: String
                             nullability: not null
                         &
 
-                        id: 7
+                        id: 8
                         name: "Количина"
                         &
                             domain: "Количина"
                             nullability: not null
                         &
 
-                        id: 8
-                        name: "ЦенаПоКомаду"
+                        id: 9
+                        name: "Цена по комаду"
                         &
                             domain: Real
                             constraint: > 0
                         &
 
-                        id: 9
-                        name: "УкупнаЦена"
+                        id: 10
+                        name: "Укупна цена"
                         &
                             domain: Real  
-                            constraint: = "ЦенаПоКомаду" * "Количина"
+                            constraint: = "Цена по комаду" * "Количина"
                         &
                     }
                 #
 
-                id: 10
-                name: "УкупнаВредност"
+                id: 11
+                name: "Укупна вредност"
                 &
                     domain: Real
                     nullability: not null
-                    constraint:  = SUM("УкупнаЦена")
+                    constraint:  = SUM("Укупна цена")
                 &
             >
         #
 
-        id: 11
+        id: 12
         name: "Испорука"
         #
             type: dataStore
             /
-                id: 12
+                id: 13
                 name: "Лично"
                 &
                     domain: Logical
                 &
 
-                id: 13
-                name: "ПутемЕПоште"
-                &
-                    domain: Logical
-                &
-
                 id: 14
-                name: "ПутемПоште"
+                name: "Путем е-поште"
                 &
                     domain: Logical
                 &
 
                 id: 15
-                name: "ПутемИнтерногСистема"
+                name: "Путем поште"
+                &
+                    domain: Logical
+                &
+
+                id: 16
+                name: "Путем интерног система"
                 &
                     domain: Logical
                 &
             /
         #
 
-        id: 16
+        id: 17
         name: "Припремио"
         #
             type: dataStore
             <
-                id: 17
-                name: "ИмеИПрезиме"
-                &
-                    domain: String
-                    nullability: not null
-                &
-
                 id: 18
-                name: "Телефон"
+                name: "Име и презиме"
                 &
                     domain: String
                     nullability: not null
                 &
 
                 id: 19
-                name: "ЕПошта"
+                name: "Телефон"
                 &
                     domain: String
-		            format: "LIKE %@%.%"
                     nullability: not null
                 &
 
                 id: 20
+                name: "Е пошта"
+                &
+                    domain: String
+                    nullability: not null
+		            constraint: LIKE "%@%.%"
+                &
+
+                id: 21
                 name: "Датум"
                 &
                     domain: Date

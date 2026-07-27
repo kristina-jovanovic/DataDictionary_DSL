@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using DataDictionary.Domain.Enums;
 using DataDictionary.Domain.Models;
 using DataDictionary.UIModel.Enums;
@@ -10,7 +11,8 @@ namespace DataDictionary.UIModel
         public string? Pattern { get; set; } = null;
         public int? MaxLength { get; set; } = null;
         public int? MinLength { get; set; } = null;
-        public EditorStyle EditorStyle { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public EditorStyle EditorStyle { get; set; } = EditorStyle.SingleLine;
 
         [SetsRequiredMembers]
         public TextBoxControl(int id, string name, PredefinedDomainType dataType,

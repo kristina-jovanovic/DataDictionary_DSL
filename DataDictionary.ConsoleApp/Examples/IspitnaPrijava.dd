@@ -1,0 +1,273 @@
+DATA DICTIONARY
+id: 2
+name: "Испитна пријава"
+author: "КЈ"
+version: "1"
+date of creation: 13.08.2026.
+{
+    SEMANTIC DOMAIN
+    id: 1
+    name: "ДОцена"
+    base: Integer
+    constraint: BETWEEN (5,10)
+
+    STRUCTURES
+    id: 1
+    name: "Испитна пријава"
+    type: dataStore
+    <
+        id: 2
+        name: "Подаци о студенту"
+        # name: "Подаци о студенту" #
+        
+        id: 3
+        name: "Подаци о испиту"
+        # name: "Подаци о испиту" #
+
+        id: 4
+        name: "Подаци о оцени"
+        # name: "Подаци о оцени" #
+
+        id: 5
+        name: "Датум полагања"
+        &
+            domain: Date
+            format: "dd.MM.yyyy."
+            nullability: not null
+        &
+
+        id: 6
+        name: "Потпис наставника"
+        &
+            domain: Graphic
+            nullability: not null
+        &
+    >
+
+    id: 7
+    name: "Подаци о студенту"
+    type: dataStore
+    <
+        id: 8
+        name: "Презиме и име"
+        &
+            domain: String
+		    format: "^([А-Ш][а-ш]+\s*)+$"
+            nullability: not null
+        &
+
+        id: 9
+        name: "Број индекса"
+        &
+            domain: String
+		    format: "^[0-9]{4}$"
+            nullability: not null
+        &
+
+        id: 10
+        name: "Година уписа"
+        &
+            domain: Date
+            format: "yyyy"
+            nullability: not null
+            constraint: <= current_date
+        &
+
+        id: 11
+        name: "ЈМБГ"
+        &
+            domain: String
+		    format: "^[0-9]{13}$"
+            nullability: not null
+        &
+
+        id: 12
+        name: "Е-пошта"
+        &
+            domain: String
+            nullability: null
+            constraint: LIKE "%@%.%"
+        &
+
+        id: 13
+        name: "Телефон"
+        &
+            domain: String
+		    format: "^(\+3816)[0-9]{7,9}$"
+            nullability: not null
+        &
+
+        id: 14
+        name: "Статус студента"
+        #
+            type: dataStore
+            [
+                id: 15
+                name: "Буџет"
+                &
+                    domain: Logical
+                &
+
+                id: 16
+                name: "Самофинансирање"
+                &
+                    domain: Logical
+                &
+            ]
+        #
+
+        id: 17
+        name: "Посебан статус студента"
+        #
+            type: dataStore
+            /
+                id: 18
+                name: "Стипендиста"
+                &
+                    domain: Logical
+                &
+
+                id: 19
+                name: "Студент у радном односу"
+                &
+                    domain: Logical
+                &
+
+                id: 20
+                name: "Члан студентске организације"
+                &
+                    domain: Logical
+                &
+
+                id: 21
+                name: "Такмичар"
+                &
+                    domain: Logical
+                &
+
+                id: 22
+                name: "Нема"
+                &
+                    domain: Logical
+                &
+            /
+        #
+     >
+
+     id: 23
+     name: "Подаци о испиту"
+     type: dataStore
+     <
+        id: 24
+        name: "Назив предмета"
+        &
+            domain: String
+            format: "^[А-Ш][а-ш]+(\s[а-ш]+)*$"
+            nullability: not null
+        &
+
+        id: 25
+        name: "Испитни рок"
+        #
+            type: dataStore
+            [
+                id: 26
+                name: "Јануарски"
+                &
+                    domain: Logical
+                &
+
+                id: 27
+                name: "Фебруарски"
+                &
+                    domain: Logical
+                &
+
+                id: 28
+                name: "Јунски"
+                &
+                    domain: Logical
+                &
+
+                id: 30
+                name: "Септембарски"
+                &
+                    domain: Logical
+                &
+
+                id: 31
+                name: "Октобарски"
+                &
+                    domain: Logical
+                &
+            ]
+        #
+
+        id: 32
+        name: "Прилози"
+        #
+            type: dataFlow
+            /
+                id: 33
+                name: "Уплатница"
+                &
+                    domain: Logical
+                &
+
+                id: 34
+                name: "Потврда о поенима"
+                &
+                    domain: Logical
+                &
+
+                id: 35
+                name: "Пројекат"
+                &
+                    domain: Logical
+                &
+
+                id: 36
+                name: "Молба"
+                &
+                    domain: Logical
+                &
+            /
+        #
+     >
+
+     id: 37
+     name: "Подаци о оцени"
+     type: dataStore
+     <
+        id: 38
+        name: "Предиспитни поени"
+        &
+            domain: Real
+            nullability: not null
+            constraint: >= 0
+        &
+
+        id: 39
+        name: "Поени на испиту"
+        &
+            domain: Real
+            nullability: not null
+            constraint: >= 0
+        &
+
+        id: 40
+        name: "Укупни поени"
+        &
+            domain: Real
+            nullability: not null
+            constraint: = "Предиспитни поени" + "Поени на испиту"
+        &
+
+        id: 41
+        name: "Оцена"
+        &
+            domain: "ДОцена"
+            nullability: not null
+        &
+     >
+}

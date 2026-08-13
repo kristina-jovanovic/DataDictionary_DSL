@@ -12,6 +12,9 @@ namespace DataDictionary.Analysis
         private readonly Dictionary<string, List<Field>> _fields = new();
         private readonly Dictionary<string, List<Structure>> _structures = new();
         private readonly Dictionary<string, List<SemanticDomain>> _semanticDomains = new();
+        // po IDENTITETU objekta: referencirana struktura je ista instanca i na mestu
+        // definicije i na mestu reference — indeksira se samo jednom (bez laznih duplikata)
+        private readonly HashSet<Component> _visited = new(ReferenceEqualityComparer.Instance);
 
         public SymbolTable(DataDictionaryModel model)
         {
@@ -25,6 +28,8 @@ namespace DataDictionary.Analysis
 
         private void Index(Component c)
         {
+            if (!_visited.Add(c))
+                return;   // vec indeksirana (referencirana struktura je isti objekat) — ne dupliraj
             if (c is Structure s)
             {
                 Add(_structures, s.Name, s);

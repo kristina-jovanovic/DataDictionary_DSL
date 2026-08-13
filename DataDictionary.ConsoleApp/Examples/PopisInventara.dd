@@ -13,7 +13,7 @@ date of creation: 25.07.2026.
 
     SEMANTIC DOMAIN
     id: 1
-    name: "Количина"
+    name: "ДКоличина"
     base: Integer
     constraint: > 0
 
@@ -63,7 +63,7 @@ date of creation: 25.07.2026.
                         id: 8
                         name: "Количина"
                         &
-                            domain: "Количина"
+                            domain: "ДКоличина"
                             nullability: not null
                         &
 
@@ -78,7 +78,7 @@ date of creation: 25.07.2026.
                         name: "Укупна цена"
                         &
                             domain: Real  
-                            constraint: = "Цена по комаду" * "Количина"
+                            constraint: = "Количина" * "Цена по комаду"
                         &
                     }
                 #
@@ -133,6 +133,7 @@ date of creation: 25.07.2026.
                 name: "Име и презиме"
                 &
                     domain: String
+		            format: "^([А-Ш][а-ш]+\s*)+$"
                     nullability: not null
                 &
 
@@ -140,6 +141,7 @@ date of creation: 25.07.2026.
                 name: "Телефон"
                 &
                     domain: String
+		            format: "^(\+3816)[0-9]{7,9}$"
                     nullability: not null
                 &
 
@@ -155,6 +157,7 @@ date of creation: 25.07.2026.
                 name: "Датум"
                 &
                     domain: Date
+		            format: "dd.MM.yyyy."
                     nullability: not null
                     constraint: <= today
                 &

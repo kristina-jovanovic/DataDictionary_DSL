@@ -125,7 +125,7 @@ namespace DataDictionary.Analysis.Checks
         {
             NumericConstraintValue n => n.Value.ToString(CultureInfo.InvariantCulture),
             StringConstraintValue s => $"\"{s.Value}\"",
-            DateConstraintValue d => d.Value.ToString("dd.MM.yyyy."),
+            DateConstraintValue d => d.Value.ToString("dd.MM.yyyy."), //zameniti mozda u yyyy-MM-dd zbog Darka
             DateKeywordConstraintValue k => k.Keyword.ToString().ToLowerInvariant(),
             _ => v.ToString() ?? ""
         };

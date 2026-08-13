@@ -22,4 +22,8 @@
     <Folder Include="TestInputs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataDictionary.Transformation\DataDictionary.Transformation.csproj" />
+  </ItemGroup>
+
 </Project>

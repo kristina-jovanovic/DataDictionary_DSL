@@ -20,19 +20,31 @@ namespace DataDictionary.Analysis.Checks
                 var baseType = DomainHelper.ResolveBaseType(field.DefinedOverDomain);
                 if (baseType == null) continue;
 
-                if (baseType.Value != PredefinedDomainType.String)
+                if (baseType.Value != PredefinedDomainType.String && baseType.Value != PredefinedDomainType.Date)
                 {
                     yield return new SemanticError(
-                        $"Field '{field.Name}' has a format but its domain is {baseType.Value}; format is only allowed on String.",
+                        $"Field '{field.Name}' has a format but its domain is {baseType.Value}; format is only allowed on String or Date.",
                         SemanticRule.InvalidType, field.Name);
-                    continue;   // nema smisla validirati regex ako domen nije String
+                    continue;   // format je dozvoljen za String i Date
+                    //dodati za Real i Int ? da bi moglo "n RSD" npr
                 }
 
-                if (!IsValidRegex(field.Format))
+                if (baseType.Value == PredefinedDomainType.String && !IsValidRegex(field.Format)) // validacija regex-a kada je format definisan nad Stringom
                     yield return new SemanticError(
                         $"Field '{field.Name}' has an invalid regular expression format: \"{field.Format}\".",
                         SemanticRule.InvalidType, field.Name);
+
+                if (baseType.Value == PredefinedDomainType.Date && !IsValidDateFormat(field.Format)) // validacija datuma kada je format definisan nad Date
+                    yield return new SemanticError(
+                        $"Field '{field.Name}' has an invalid date format: \"{field.Format}\".",
+                        SemanticRule.InvalidType, field.Name);
             }
+        }
+
+        private bool IsValidDateFormat(string format)
+        {
+            char[] allowed = { 'd', 'M', 'y', 'H', 'm', 's', '/', '.', '-', ':' };
+            return format.All(c => allowed.Contains(c));
         }
 
         // yield ne sme unutar try/catch, pa validaciju radimo u zasebnoj metodi

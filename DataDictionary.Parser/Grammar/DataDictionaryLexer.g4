@@ -75,7 +75,7 @@ fragment DAY:				'0'[1-9] | [12][0-9] | '3'[01]						;
 fragment MONTH:				'0'[1-9] | '1'[012]									;
 fragment YEAR:				'19'[0-9][0-9] | '20'[0-9][0-9]						;
 
-STRING:						'"' ( ~["\\\r\n] | ESC )* '"'						; //dozvoljeno pod navodnicima sve osim ", \ i novog reda
+STRING:						'"' ( ~["\r\n] | ESC )* '"'							; //dozvoljeno pod navodnicima sve osim " i novog reda
 fragment ESC:				'\\' ["\\/bfnrt]									; //dozvoljava \", \\, \/, \b, \f, \n, \r, \t //b je backspace, f je form feed
 REAL:						[0-9]+ '.' [0-9]+ 									;
 INT:						[0-9]+												;

@@ -16,7 +16,7 @@ namespace DataDictionary.ConsoleApp
             // AppContext.BaseDirectory je izlazni folder (bin/Debug/net10.0), pa se
             // penjemo tri nivoa nazad (net10.0 -> Debug -> bin -> projekat) do Examples
             string path = Path.Combine(AppContext.BaseDirectory,
-                "..", "..", "..", "Examples", "PopisInventara.dd");
+                "..", "..", "..", "Examples", "RezervacijaAvioKarata.dd");
             string input = File.ReadAllText(path);
 
             // Kreiranje parser servisa
@@ -55,20 +55,17 @@ namespace DataDictionary.ConsoleApp
             }
             else
             {
-                Console.WriteLine("No semantic errors!");
+                Console.WriteLine("No semantic errors!\n");
             }
 
             // Prikaz celog modela
             ModelPrinter.Print(result.Model!);
 
-            // === Transformacija u UI model + JSON (u izradi) ===
-            // Bezbedno: dok metode UiModelBuilder-a jos bacaju NotImplementedException,
-            // ovaj blok samo ispise poruku i ne kvari postojeci (pozitivan) test.
+            // Transformacija u UI model + JSON
             try
             {
                 var uiRoot = new UiModelBuilder().Build(result.Model!);
-                string outPath = Path.Combine(AppContext.BaseDirectory,
-                    "..", "..", "..", "Examples", "output.json");
+                string outPath = Path.ChangeExtension(path, ".json");
                 UiModelJsonWriter.WriteToFile(uiRoot, outPath);
                 Console.WriteLine($"\nUI model serijalizovan u: {outPath}");
             }

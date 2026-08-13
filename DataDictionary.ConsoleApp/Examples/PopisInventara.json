@@ -146,7 +146,7 @@
                 "operator": "SUM",
                 "value": [
                   {
-                    "targetName": "УкупнаЦена"
+                    "targetName": "СтавкаЛисте.УкупнаЦена"
                   }
                 ]
               }

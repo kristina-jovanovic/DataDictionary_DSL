@@ -66,15 +66,16 @@ inclusiveSpecializationDecl:	SLASH
 
 componentDecl:					ID_LABEL INT
 								NAME_LABEL STRING
-								(HASH 
-									(structureDecl | structureReference)
-								HASH 
-								| AMPERSAND fieldDecl AMPERSAND)	;
+								(
+									(HASH (structureDecl | structureReference) HASH)
+									| 
+									(AMPERSAND fieldDecl AMPERSAND)
+								)															;
 
 structureReference:				NAME_LABEL STRING											;
 
 fieldDecl:						DOMAIN_LABEL domainReference				
-								(FORMAT_LABEL format)?		// regex 
+								(FORMAT_LABEL format)?		// regex ili format datuma
 								(NULLABILITY_LABEL NULL_CONSTRAINT)?
 								(CONSTRAINT_LABEL constraint)?
 								(DEFAULT_LABEL value)?

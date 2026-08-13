@@ -1229,6 +1229,7 @@ public partial class DataDictionaryParser : Parser {
 			switch (TokenStream.LA(1)) {
 			case HASH:
 				{
+				{
 				State = 203;
 				Match(HASH);
 				State = 206;
@@ -1250,8 +1251,10 @@ public partial class DataDictionaryParser : Parser {
 				State = 208;
 				Match(HASH);
 				}
+				}
 				break;
 			case AMPERSAND:
+				{
 				{
 				State = 210;
 				Match(AMPERSAND);
@@ -1259,6 +1262,7 @@ public partial class DataDictionaryParser : Parser {
 				fieldDecl();
 				State = 212;
 				Match(AMPERSAND);
+				}
 				}
 				break;
 			default:

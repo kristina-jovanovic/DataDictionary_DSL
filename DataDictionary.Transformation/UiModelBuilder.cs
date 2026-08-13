@@ -35,11 +35,47 @@ namespace DataDictionary.Transformation
     //                            ili ComputedValue + IsReadOnly (aritmetika "= izraz")
     public sealed class UiModelBuilder
     {
+        // Za svako polje: roditeljska struktura (identifikator) + da li je ta struktura Set.
+        // Sluzi za targetName operanada u aritmetici (v. OperandTargetName).
+        private readonly Dictionary<string, (string parentId, bool parentIsSet)> _fieldParent = new();
+
         public Panel Build(DataDictionaryModel model)
         {
             var ctx = new TransformationContext(new IdProvider());
+            IndexFieldParents(model.Structures[0], null, false);
             // Koren je uvek Panel (korena struktura ima agregaciju kao konstrukciju).
             return (Panel)TransformStructure(model.Structures[0], ctx);
+        }
+
+        // Napuni _fieldParent: za svako polje zapamti roditeljsku strukturu i da li je Set.
+        private void IndexFieldParents(Component c, string? parentId, bool parentIsSet)
+        {
+            if (c is Field f)
+            {
+                _fieldParent[NameHelper.ToIdentifier(f.Name)] = (parentId ?? "", parentIsSet);
+            }
+            else if (c is Structure s)
+            {
+                string sid = NameHelper.ToIdentifier(s.Name);
+                foreach (var con in s.Constructions)
+                {
+                    bool isSet = con.ConstructionType == ConstructionType.Set;
+                    foreach (var comp in con.Components)
+                        IndexFieldParents(comp, sid, isSet);   // deca -> roditelj = ova struktura
+                }
+            }
+        }
+
+        // targetName operanda: u kolekciji (Set) UVEK "roditelj.ime"
+        // van kolekcije "roditelj.ime" samo ako se referencira iz DRUGE strukture, a golo ime ako je iz iste
+        private string OperandTargetName(string rawName, string currentScopeId)
+        {
+            string fid = NameHelper.ToIdentifier(rawName);
+            if (!_fieldParent.TryGetValue(fid, out var info))
+                return fid;   // nepoznato -> golo (fallback)
+            if (info.parentIsSet || info.parentId != currentScopeId)
+                return $"{info.parentId}.{fid}";
+            return fid;
         }
 
         // Struktura -> Panel | Collection, u zavisnosti od (jedine) konstrukcije
@@ -134,7 +170,7 @@ namespace DataDictionary.Transformation
                     throw new ArgumentException("Unsupported Domain type.");
             }
             string controlName = NameHelper.ToIdentifier(field.Name);
-            result.ComputedValue = BuildComputedValue(field.Constraint, ctx);
+            result.ComputedValue = BuildComputedValue(field.Constraint, NameHelper.ToIdentifier(structure.Name));
             result.IsReadOnly = result.ComputedValue != null;       // racunato polje => read-only
             result.RestrictedValue = BuildRestrictedValue(field.Constraint ?? domain.SemanticConstraint, controlName, ctx);
             return result;
@@ -342,20 +378,20 @@ namespace DataDictionary.Transformation
 
         // Aritmeticko ogranicenje ("= izraz") i agregatne funkcije ("SUM (naziv)")
         // ArithmeticConstraint -> ComputedValue (+ kontrola IsReadOnly=true).
-        private ConstraintUI? BuildComputedValue(ConstraintExpression? constraint, TransformationContext ctx)
+        private ConstraintUI? BuildComputedValue(ConstraintExpression? constraint, string scopeId)
         {
             if (constraint is not ArithmeticConstraint ac)
                 return null;
-            return new ConstraintUI(new() { ToComputedValue(ac.Expression, ctx) });
+            return new ConstraintUI(new() { ToComputedValue(ac.Expression, scopeId) });
 
         }
 
-        private ConstraintRule ToComputedValue(ArithmeticExpression expression, TransformationContext ctx) => expression switch
+        private ConstraintRule ToComputedValue(ArithmeticExpression expression, string scopeId) => expression switch
         {
             BinaryArithmeticExpression b => new ConstraintRule
             {
                 Operator = ArithmeticSymbol(b.Operator),
-                Operands = new() { ToOperand(b.Left, ctx), ToOperand(b.Right, ctx) },
+                Operands = new() { ToOperand(b.Left, scopeId), ToOperand(b.Right, scopeId) },
             },
             AggregateFunctionExpression a => new ConstraintRule
             {
@@ -364,19 +400,19 @@ namespace DataDictionary.Transformation
                 {
                     new ConstraintOperand
                     {
-                        TargetName=ctx.QualifyTargetName(NameHelper.ToIdentifier(a.ComponentName))
+                        TargetName = OperandTargetName(a.ComponentName, scopeId)
                     }
                 }
             },
             _ => throw new ArgumentException($"Unexpected arithmetic expression: {expression.GetType().Name}")
         };
 
-        private ConstraintOperand ToOperand(ArithmeticExpression expression, TransformationContext ctx) => expression switch
+        private ConstraintOperand ToOperand(ArithmeticExpression expression, string scopeId) => expression switch
         {
             // npr. <= cena
             ComponentReferenceExpression c => new ConstraintOperand
             {
-                TargetName = ctx.QualifyTargetName(NameHelper.ToIdentifier(c.ComponentName))
+                TargetName = OperandTargetName(c.ComponentName, scopeId)
             },
             // npr. <= 5
             NumericLiteralExpression n => new ConstraintOperand
@@ -386,7 +422,7 @@ namespace DataDictionary.Transformation
             // neki slozeniji izraz
             _ => new ConstraintOperand
             {
-                Expression = ToComputedValue(expression, ctx)
+                Expression = ToComputedValue(expression, scopeId)
             }
         };
 

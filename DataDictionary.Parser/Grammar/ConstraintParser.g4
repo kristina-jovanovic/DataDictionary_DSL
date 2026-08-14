@@ -30,8 +30,8 @@ atom:					STRING 					// ovo je naziv komponente, ali samo ako je polje u pitanj
 						| REAL
 						| aggregateFunction
 						| L_PAREN arithmeticExpression R_PAREN						;
-aggregateFunction:		(SUM | AVG | COUNT | MIN | MAX) L_PAREN STRING R_PAREN		; // ovo je naziv komponente, ali samo ako je polje u pitanju, 												// to bi se proveravalo kroz semantiku, za sada ne gledamo 
-																						// slucajeve slozenije od ovog
+aggregateFunction:		(SUM | AVG | COUNT | MIN | MAX) L_PAREN STRING R_PAREN		; // ovo je naziv komponente, ali samo ako je polje u pitanju, 												
+	// to bi se proveravalo kroz semantiku, za sada ne gledamo slucajeve slozenije od ovog
 
 // 9-ka koja predstavlja cifru u cobol-u moze da pravi konflikt sa int, tako da mozda bolje format da ostane string
 // pa da gledamo kroz semantiku

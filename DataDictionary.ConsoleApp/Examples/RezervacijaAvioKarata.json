@@ -301,17 +301,15 @@
                 "operator": "+",
                 "value": [
                   {
-                    "expression": {
-                      "operator": "+",
-                      "value": [
-                        {
-                          "targetName": "ЦенаКарата"
-                        },
-                        {
-                          "targetName": "АеродромскеТаксе"
-                        }
-                      ]
-                    }
+                    "operator": "+",
+                    "value": [
+                      {
+                        "targetName": "ЦенаКарата"
+                      },
+                      {
+                        "targetName": "АеродромскеТаксе"
+                      }
+                    ]
                   },
                   {
                     "targetName": "ЦенаДодатнихУслуга"

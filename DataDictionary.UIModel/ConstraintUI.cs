@@ -39,6 +39,7 @@ namespace DataDictionary.UIModel
     //   { targetName }                       -> referenca
     //   { value }                            -> literal
     //   { expression: {operator, value} }    -> (a+b) unutar veceg izraza
+    [JsonConverter(typeof(ConstraintOperandJsonConverter))]
     public class ConstraintOperand
     {
         public string? TargetName { get; set; }

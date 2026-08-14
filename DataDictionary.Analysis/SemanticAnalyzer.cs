@@ -23,6 +23,7 @@ namespace DataDictionary.Analysis
                 new ArithmeticCheck(),
                 new UniquenessCheck(),
                 new FormatCheck(),
+                new BoundsCheck(),
             };
         }
 

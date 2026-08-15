@@ -19,10 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestInputs\" />
+    <!-- Tri studijska primera se LINKUJU iz ConsoleApp/Examples (jedan izvor istine)
+         i kopiraju u izlazni folder testova, pa se citaju iz TestInputs u runtime-u. -->
+    <Content Include="..\DataDictionary.ConsoleApp\Examples\PopisInventara.dd" Link="TestInputs\PopisInventara.dd" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\DataDictionary.ConsoleApp\Examples\IspitnaPrijava.dd" Link="TestInputs\IspitnaPrijava.dd" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\DataDictionary.ConsoleApp\Examples\RezervacijaAvioKarata.dd" Link="TestInputs\RezervacijaAvioKarata.dd" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Cela cev: parser -> semantika -> transformacija -->
+    <ProjectReference Include="..\DataDictionary.Parser\DataDictionary.Parser.csproj" />
+    <ProjectReference Include="..\DataDictionary.Analysis\DataDictionary.Analysis.csproj" />
     <ProjectReference Include="..\DataDictionary.Transformation\DataDictionary.Transformation.csproj" />
   </ItemGroup>
 

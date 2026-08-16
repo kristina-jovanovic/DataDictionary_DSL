@@ -49,13 +49,9 @@ namespace DataDictionary.Analysis.Checks
                             yield return Error(field, v, type);
                     break;
                 case BetweenConstraint bc:
-                    bool lo = IsCompatible(bc.LowerBound, type);
-                    bool hi = IsCompatible(bc.UpperBound, type);
-                    if (!lo) yield return Error(field, bc.LowerBound, type);
-                    if (!hi) yield return Error(field, bc.UpperBound, type);
-                    if (lo && hi && !BoundsCheck(bc.LowerBound, bc.UpperBound, type))
-                        yield return new SemanticError($"Field '{field}': lower bound must be less than upper bound.",
-                            SemanticRule.InvalidType, field);
+                    // samo TIP vrednosti; ispravnost granica (donja < gornja) proverava BoundsCheck
+                    if (!IsCompatible(bc.LowerBound, type)) yield return Error(field, bc.LowerBound, type);
+                    if (!IsCompatible(bc.UpperBound, type)) yield return Error(field, bc.UpperBound, type);
                     break;
                 case LikeConstraint when type != PredefinedDomainType.String:
                     yield return new SemanticError($"Field '{field}': LIKE is only allowed on String domain.",
@@ -66,54 +62,6 @@ namespace DataDictionary.Analysis.Checks
                         SemanticRule.InvalidType, field);
                     break;
             }
-        }
-
-        private bool BoundsCheck(ConstraintValue lowerBound, ConstraintValue upperBound, PredefinedDomainType type) => lowerBound switch
-        {
-            NumericConstraintValue => ((NumericConstraintValue)lowerBound).Value < ((NumericConstraintValue)upperBound).Value,
-            DateConstraintValue or DateKeywordConstraintValue => ProcessDateKeywordCheck(lowerBound, upperBound),
-            _ => false
-        };
-
-        private bool ProcessDateKeywordCheck(ConstraintValue lowerBound, ConstraintValue upperBound)
-        {
-            DateConstraintValue? lower = null;
-            DateConstraintValue? upper = null;
-            if (lowerBound.GetType() == typeof(DateConstraintValue))
-                lower = (DateConstraintValue)lowerBound;
-            else //znaci da je keyword
-            {
-                DateKeywordConstraintValue l = (DateKeywordConstraintValue)lowerBound;
-                switch (l.Keyword)
-                {
-                    case DateKeyword.Today:
-                        lower = new DateConstraintValue(DateTime.Today);
-                        break;
-                    case DateKeyword.Now:
-                        lower = new DateConstraintValue(DateTime.Now);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (upperBound.GetType() == typeof(DateConstraintValue))
-                upper = (DateConstraintValue)upperBound;
-            else
-            {
-                DateKeywordConstraintValue u = (DateKeywordConstraintValue)upperBound;
-                switch (u.Keyword)
-                {
-                    case DateKeyword.Today:
-                        upper = new DateConstraintValue(DateTime.Today);
-                        break;
-                    case DateKeyword.Now:
-                        upper = new DateConstraintValue(DateTime.Now);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return lower?.Value < upper?.Value;
         }
 
         private SemanticError Error(string field, ConstraintValue value, PredefinedDomainType type)

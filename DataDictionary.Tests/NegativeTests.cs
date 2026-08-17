@@ -81,6 +81,19 @@ namespace DataDictionary.Tests
             Assert.Contains(errors.OfType<SemanticError>(), e => e.Rule == SemanticRule.WrongBounds);
         }
 
+        // --- referenca na nepostojeci domen: vizitor gradi permisivno (ne puca), greska iz semantike ---
+        [Fact]
+        public void SemanticsUnknownDomain()
+        {
+            var dd = Pipeline.LoadExample(Pipeline.PopisInventara)
+                .Replace("domain: \"ДКоличина\"", "domain: \"Непостоји\"");
+
+            // ParseOk tvrdi da gradnja modela NE PUCA (permisivno), a greska dolazi iz semantike
+            var errors = AnalyzeExpectingParseOk(dd);
+
+            Assert.Contains(errors.OfType<SemanticError>(), e => e.Rule == SemanticRule.UndefinedReference);
+        }
+
         // helper: parsira (mora da bude uspesno), pa vraca semanticke greske
         private static List<Error> AnalyzeExpectingParseOk(string dd)
         {

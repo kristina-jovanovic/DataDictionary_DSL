@@ -16,6 +16,7 @@ namespace DataDictionary.Analysis
             // aritmetika/agregati -> jedinstvenost -> format.
             _checks = new List<ISemanticCheck>
             {
+                new DomainReferenceCheck(),
                 new ReferenceResolutionCheck(),
                 new ConstraintTypeCheck(),
                 new ConstraintDomainCompatibilityCheck(),

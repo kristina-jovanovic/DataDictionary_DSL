@@ -111,7 +111,7 @@ namespace DataDictionary.Transformation
             int id = ctx.Ids.Next();
             ResolvedDomain? domain = DomainResolver.Resolve(field.DefinedOverDomain);
             if (domain == null)
-                throw new ArgumentException($"Domain {field.DefinedOverDomain.Name} is cyclic.");
+                throw new ArgumentException($"Domain '{field.DefinedOverDomain.Name}' could not be resolved (unknown or cyclic).");
             DataControl result = null;
             switch (domain.BaseType)
             {

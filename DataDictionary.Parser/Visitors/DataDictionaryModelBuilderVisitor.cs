@@ -280,7 +280,8 @@ namespace DataDictionary.Parser.Visitors
             {
                 string domainName = Helper.ProcessString(ctx.STRING().GetText());
                 if (!_domainsByName.TryGetValue(domainName, out domain))
-                    throw new ArgumentException($"Unknown semantic domain: {domainName}");
+                    // permisivno: ne bacamo, nego placeholder; DomainReferenceCheck ovo prijavljuje
+                    domain = new UnresolvedDomain(domainName);
             }
             return domain;
         }

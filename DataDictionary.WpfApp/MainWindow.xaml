@@ -1,0 +1,44 @@
+<Window x:Class="DataDictionary.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Речник података → Метамодел КИ" Height="720" Width="1150"
+        FontFamily="Segoe UI" FontSize="13">
+    <DockPanel Margin="8">
+
+        <!-- Traka sa dugmadima -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button x:Name="LoadButton" Content="Учитај .dd" Padding="12,4" Margin="0,0,6,0" Click="LoadButton_Click"/>
+            <Button x:Name="GenerateButton" Content="Генериши" Padding="12,4" Margin="0,0,6,0" Click="GenerateButton_Click"/>
+            <Button x:Name="SaveButton" Content="Сачувај JSON" Padding="12,4" Click="SaveButton_Click"/>
+        </StackPanel>
+
+        <!-- Greske (dno) -->
+        <GroupBox DockPanel.Dock="Bottom" Header="Грешке" Height="160" Margin="0,8,0,0">
+            <ListBox x:Name="ErrorsList" FontFamily="Consolas" FontSize="12"/>
+        </GroupBox>
+
+        <!-- Editor recnika i Generisani JSON -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="Речник података (.dd)">
+                <TextBox x:Name="InputEditor"
+                         AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas" FontSize="13"/>
+            </GroupBox>
+
+            <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch"/>
+
+            <GroupBox Grid.Column="2" Header="Генерисани метамодел КИ (JSON)">
+                <TextBox x:Name="JsonOutput" IsReadOnly="True" TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas" FontSize="13"/>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

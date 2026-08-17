@@ -6,4 +6,5 @@
   <Project Path="DataDictionary.Tests/DataDictionary.Tests.csproj" Id="8f510b33-7f25-4442-b3b6-35e1eea72597" />
   <Project Path="DataDictionary.Transformation/DataDictionary.Transformation.csproj" Id="b7c913d3-5b8b-4074-94e3-a45a5dfd45e6" />
   <Project Path="DataDictionary.UIModel/DataDictionary.UIModel.csproj" Id="0e3e9678-40bb-4ad9-af06-202dcb2f07f5" />
+  <Project Path="DataDictionary.WpfApp/DataDictionary.WpfApp.csproj" />
 </Solution>

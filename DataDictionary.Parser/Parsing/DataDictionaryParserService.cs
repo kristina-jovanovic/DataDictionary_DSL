@@ -65,6 +65,20 @@ namespace DataDictionary.Parser.Parsing
                     }
                 };
             }
+            catch (Exception ex)
+            {
+                // Vizitor na nekim "semanticki losim" mestima baca ArgumentException
+                // (npr. nepoznat semanticki domen / struktura, neispravan datum)
+                // Model nema pozicije u izvoru, pa Line/Column ostaju 0
+                return new ParseResult
+                {
+                    Success = false,
+                    Errors = new List<Error>
+                    {
+                        new Error(0, 0, ErrorType.Semantic, ex.Message)
+                    }
+                };
+            }
         }
     }
 }

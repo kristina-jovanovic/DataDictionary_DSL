@@ -113,17 +113,27 @@ namespace DataDictionary.Transformation
             if (domain == null)
                 throw new ArgumentException($"Domain '{field.DefinedOverDomain.Name}' could not be resolved (unknown or cyclic).");
             DataControl result = null;
+            // Enumerisani domen -> ComboBox (ima prioritet nad baznim tipom: npr. enumerisani String
+            // ne sme da postane TextBox). Front-end je vec popunio domain.Enumerated (v. DomainResolver).
+            if (domain.IsEnumerated && domain.Enumerated != null)
+            {
+                result = BuildComboBox(field, domain, id, ctx);
+            }
+            else
             switch (domain.BaseType)
             {
                 case PredefinedDomainType.Integer:
                 case PredefinedDomainType.Real:
+                    // Numericki format (npr. "{n} %", "{n} RSD") ide u Pattern; nije regex.
+                    // Darko zna: ako se Pattern kompajlira kao regex -> validacija, ako ne -> maska.
                     result = new TextBoxControl(
                         id,
                         NameHelper.ToIdentifier(field.Name),
                         domain.BaseType,
                         field.Name,
                         field.Nullability != Nullability.Null,
-                        defaultValue: field.DefaultValue
+                        defaultValue: field.DefaultValue,
+                        pattern: field.Format
                         );
                     break;
                 case PredefinedDomainType.Date:
@@ -175,6 +185,36 @@ namespace DataDictionary.Transformation
             result.RestrictedValue = BuildRestrictedValue(field.Constraint ?? domain.SemanticConstraint, controlName, ctx);
             return result;
         }
+
+        // Enumerisani domen -> ComboBox: dozvoljene vrednosti (AllowedValues) postaju stavke (ComboBoxItem)
+        // Svaka stavka dobija sledeci id iz IdProvider-a (pre-order: posle id-a same kontrole)
+        private ComboBoxControl BuildComboBox(Field field, ResolvedDomain domain, int id, TransformationContext ctx)
+        {
+            List<ComboBoxItem> items = new List<ComboBoxItem>();
+            foreach (Value allowed in domain.Enumerated!.AllowedValues)
+            {
+                int itemId = ctx.Ids.Next();
+                items.Add(new ComboBoxItem(itemId, EnumeratedItemLabel(allowed), allowed));
+            }
+            return new ComboBoxControl(
+                id,
+                NameHelper.ToIdentifier(field.Name),
+                domain.BaseType,
+                field.Name,
+                field.Nullability != Nullability.Null,
+                items,
+                defaultValue: field.DefaultValue);
+        }
+
+        // Label stavke ComboBox-a iz vrednosti domena
+        private static string EnumeratedItemLabel(Value value) => value switch
+        {
+            StringValue s => s.Value,
+            NumericValue n => n.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            DateValue d => d.Value.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture),
+            BooleanValue b => b.Value ? "true" : "false",
+            _ => value.ToString() ?? string.Empty
+        };
 
         // --- konstrukcije ------------------------------------------------------
         // Aggregation -> Panel (FlowLayout)

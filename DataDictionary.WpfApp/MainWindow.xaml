@@ -12,12 +12,12 @@
             <Button x:Name="SaveButton" Content="Сачувај JSON" Padding="12,4" Click="SaveButton_Click"/>
         </StackPanel>
 
-        <!-- Greske (dno) -->
+        <!-- Greske (dno prozora) -->
         <GroupBox DockPanel.Dock="Bottom" Header="Грешке" Height="160" Margin="0,8,0,0">
             <ListBox x:Name="ErrorsList" FontFamily="Consolas" FontSize="12"/>
         </GroupBox>
 
-        <!-- Editor recnika i Generisani JSON -->
+        <!-- Editor recnika i generisani JSON -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

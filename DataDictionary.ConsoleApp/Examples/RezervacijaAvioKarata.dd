@@ -9,7 +9,7 @@ date of creation: 13.08.2026.
     id: 1
     name: "ДСтатус"
     base: String
-    constraint: IN ("потврђена", "непотврђена", "отказана")
+    values: ("потврђена" "непотврђена" "отказана")
 
     STRUCTURES
     id: 1

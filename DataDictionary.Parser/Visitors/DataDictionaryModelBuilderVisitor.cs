@@ -149,8 +149,11 @@ namespace DataDictionary.Parser.Visitors
 
             if (_topLevelStructureDecls.TryGetValue(name, out var decl))
             {
+                // ciklicna referenca: permisivno prekidamo ciklus placeholder-om (ne bacamo izuzetak odmah);
+                // StructureReferenceCheck ovo prijavljuje. Ime je vec u _structuresBeingBuilt
+                // (Add je vratio false) pa ga ovde NE uklanjamo
                 if (!_structuresBeingBuilt.Add(name))
-                    throw new ArgumentException($"Cyclic structure reference: {name}");
+                    return new UnresolvedStructure(name);
                 try
                 {
                     return BuildStructure(decl, 0, string.Empty);
@@ -161,7 +164,8 @@ namespace DataDictionary.Parser.Visitors
                 }
             }
 
-            throw new ArgumentException($"Unknown structure: {name}");
+            // nepoznata struktura: permisivno -> placeholder; StructureReferenceCheck prijavljuje
+            return new UnresolvedStructure(name);
         }
 
         private Construction BuildConstruction(DataDictionaryParser.ConstructionDeclContext context)

@@ -17,6 +17,7 @@ namespace DataDictionary.Analysis
             _checks = new List<ISemanticCheck>
             {
                 new DomainReferenceCheck(),
+                new StructureReferenceCheck(),
                 new ReferenceResolutionCheck(),
                 new ConstraintTypeCheck(),
                 new ConstraintDomainCompatibilityCheck(),

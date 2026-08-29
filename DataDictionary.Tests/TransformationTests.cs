@@ -91,15 +91,16 @@ namespace DataDictionary.Tests
         }
 
         [Fact]
-        public void NamesNotationAndInConstraint()
+        public void NamesNotationAndEnumeratedDomainComboBox()
         {
             var json = Pipeline.RunToJson(Pipeline.LoadExample(Pipeline.RezervacijaAvioKarata));
             // "Укупан износ" = Цена карата + Аеродромске таксе + Цена додатних услуга (isti "Обрачун") -> golo
             Assert.Contains("\"targetName\": \"ЦенаКарата\"", json);
             Assert.DoesNotContain("Обрачун.ЦенаКарата", json);
-            // "Ставка резервације" je Set -> Collection; domen "ДСтатус" je IN
+            // "Ставка резервације" je Set -> Collection; domen "ДСтатус" je enumerisan -> ComboBox sa stavkama
             Assert.Contains("\"Collection\"", json);
-            Assert.Contains("\"IN\"", json);
+            Assert.Contains("\"ComboBox\"", json);
+            Assert.Contains("потврђена", json);
         }
     }
 }

@@ -117,7 +117,12 @@ namespace DataDictionary.Transformation
             // ne sme da postane TextBox). Front-end je vec popunio domain.Enumerated (v. DomainResolver).
             if (domain.IsEnumerated && domain.Enumerated != null)
             {
-                result = BuildComboBox(field, domain, id, ctx);
+                result = BuildComboBoxControl(field, domain.BaseType, domain.Enumerated.AllowedValues, id, ctx);
+            }
+            else if (field.Constraint is InConstraint inConstraint)
+            {
+                // IN ogranicenje polja -> ComboBox
+                result = BuildComboBoxControl(field, domain.BaseType, inConstraint.Values.Select(ToValue), id, ctx);
             }
             else
             switch (domain.BaseType)
@@ -182,16 +187,21 @@ namespace DataDictionary.Transformation
             string controlName = NameHelper.ToIdentifier(field.Name);
             result.ComputedValue = BuildComputedValue(field.Constraint, NameHelper.ToIdentifier(structure.Name));
             result.IsReadOnly = result.ComputedValue != null;       // racunato polje => read-only
-            result.RestrictedValue = BuildRestrictedValue(field.Constraint ?? domain.SemanticConstraint, controlName, ctx);
+            // IN je vec predstavljen kao ComboBox (stavke nose ogranicenje) -> ne dupliramo ga kao restrictedValue.
+            ConstraintExpression? restriction = field.Constraint ?? domain.SemanticConstraint;
+            if (restriction is InConstraint && result is ComboBoxControl)
+                restriction = null;
+            result.RestrictedValue = BuildRestrictedValue(restriction, controlName, ctx);
             return result;
         }
 
-        // Enumerisani domen -> ComboBox: dozvoljene vrednosti (AllowedValues) postaju stavke (ComboBoxItem)
-        // Svaka stavka dobija sledeci id iz IdProvider-a (pre-order: posle id-a same kontrole)
-        private ComboBoxControl BuildComboBox(Field field, ResolvedDomain domain, int id, TransformationContext ctx)
+        // Gradi ComboBox iz liste dozvoljenih vrednosti (koristi ga i enumerisani domen i IN ogranicenje).
+        // Svaka stavka dobija sledeci id iz IdProvider-a (pre-order: posle id-a same kontrole).
+        private ComboBoxControl BuildComboBoxControl(Field field, PredefinedDomainType dataType,
+            IEnumerable<Value> allowedValues, int id, TransformationContext ctx)
         {
             List<ComboBoxItem> items = new List<ComboBoxItem>();
-            foreach (Value allowed in domain.Enumerated!.AllowedValues)
+            foreach (Value allowed in allowedValues)
             {
                 int itemId = ctx.Ids.Next();
                 items.Add(new ComboBoxItem(itemId, EnumeratedItemLabel(allowed), allowed));
@@ -199,7 +209,7 @@ namespace DataDictionary.Transformation
             return new ComboBoxControl(
                 id,
                 NameHelper.ToIdentifier(field.Name),
-                domain.BaseType,
+                dataType,
                 field.Name,
                 field.Nullability != Nullability.Null,
                 items,

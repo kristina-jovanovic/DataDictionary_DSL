@@ -124,7 +124,7 @@ date of creation: 13.08.2026.
                 name: "Цена карте"
                 &
                     domain: Integer
-                    format: "{n} RSD"
+                    format: "{n} РСД"
                     nullability: not null
                     constraint: >= 0
                 &
@@ -160,7 +160,7 @@ date of creation: 13.08.2026.
         name: "Цена услуге"
         &
             domain: Integer
-            format: "{n} RSD"
+            format: "{n} РСД"
             nullability: not null
             constraint: > 0
         &
@@ -175,7 +175,7 @@ date of creation: 13.08.2026.
         name: "Цена карата"
         &
             domain: Integer
-            format: "{n} RSD"
+            format: "{n} РСД"
             nullability: not null
             constraint: =SUM("Цена карте")
         &
@@ -184,7 +184,7 @@ date of creation: 13.08.2026.
         name: "Аеродромске таксе"
         &
             domain: Integer
-            format: "{n} RSD"
+            format: "{n} РСД"
             nullability: not null
             constraint: >= 0
         &
@@ -193,7 +193,7 @@ date of creation: 13.08.2026.
         name: "Цена додатних услуга"
         &
             domain: Integer
-            format: "{n} RSD"
+            format: "{n} РСД"
             nullability: null
             constraint: =SUM("Цена услуге")
         &
@@ -202,7 +202,7 @@ date of creation: 13.08.2026.
         name: "Укупан износ за плаћање"
         &
             domain: Integer
-            format: "{n} RSD"
+            format: "{n} РСД"
             nullability: not null
             constraint: = "Цена карата" + "Аеродромске таксе" + "Цена додатних услуга"
         &

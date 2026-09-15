@@ -71,7 +71,7 @@ date of creation: 25.07.2026.
                         name: "Цена по комаду"
                         &
                             domain: Integer
-                            format: "{n} RSD"
+                            format: "{n} РСД"
                             constraint: > 0
                         &
 
@@ -79,7 +79,7 @@ date of creation: 25.07.2026.
                         name: "Укупна цена"
                         &
                             domain: Integer  
-                            format: "{n} RSD"
+                            format: "{n} РСД"
                             constraint: = "Количина" * "Цена по комаду"
                         &
                     }
@@ -89,7 +89,7 @@ date of creation: 25.07.2026.
                 name: "Укупна вредност"
                 &
                     domain: Integer
-                    format: "{n} RSD"
+                    format: "{n} РСД"
                     nullability: not null
                     constraint:  = SUM("Укупна цена")
                 &
